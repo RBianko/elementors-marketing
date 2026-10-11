@@ -1,0 +1,292 @@
+{
+ "name": "a_early_fire_reptile",
+ "fps": 60,
+ "canvas": [
+  1080,
+  1920
+ ],
+ "video": {
+  "path": "/Users/a1/DEV/elementors-marketing/renders/a_early_fire_reptile/a_early_fire_reptile.mp4",
+  "source": [
+   2.6833,
+   10.1167
+  ],
+  "startFrame": 15,
+  "trim": 161
+ },
+ "hold": {
+  "png": "/Users/a1/DEV/elementors-marketing/renders/a_early_fire_reptile/hold_first.png",
+  "frames": [
+   0,
+   15
+  ],
+  "transform": {
+   "centerX": 0.3899,
+   "centerY": 0.5,
+   "width": 3.16,
+   "height": 1.0
+  }
+ },
+ "keyframes": {
+  "scale": [
+   [
+    0,
+    3.16,
+    1.0,
+    "smooth"
+   ],
+   [
+    23,
+    3.16,
+    1.0,
+    "smooth"
+   ],
+   [
+    128,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    138,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    148,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    158,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    168,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    178,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    188,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    198,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    207,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    227,
+    4.583,
+    1.45,
+    "smooth"
+   ],
+   [
+    235,
+    6.163,
+    1.95,
+    "smooth"
+   ],
+   [
+    271,
+    6.163,
+    1.95,
+    "smooth"
+   ],
+   [
+    315,
+    4.583,
+    1.45,
+    "smooth"
+   ],
+   [
+    445,
+    4.425,
+    1.4,
+    "smooth"
+   ]
+  ],
+  "position": [
+   [
+    0,
+    -1.1901,
+    0.0,
+    "smooth"
+   ],
+   [
+    23,
+    -1.1901,
+    0.0,
+    "smooth"
+   ],
+   [
+    128,
+    -3.1853,
+    -0.45,
+    "linear"
+   ],
+   [
+    138,
+    -3.1853,
+    -0.45,
+    "linear"
+   ],
+   [
+    148,
+    -3.1244,
+    -0.45,
+    "linear"
+   ],
+   [
+    158,
+    -2.6876,
+    -0.4358,
+    "linear"
+   ],
+   [
+    168,
+    -2.1184,
+    -0.3371,
+    "linear"
+   ],
+   [
+    178,
+    -1.8725,
+    -0.3022,
+    "linear"
+   ],
+   [
+    188,
+    -1.8952,
+    -0.3069,
+    "linear"
+   ],
+   [
+    198,
+    -1.8952,
+    -0.3062,
+    "linear"
+   ],
+   [
+    207,
+    -1.8952,
+    -0.3062,
+    "linear"
+   ],
+   [
+    227,
+    -1.8964,
+    -0.3062,
+    "smooth"
+   ],
+   [
+    235,
+    -2.7227,
+    -0.5842,
+    "smooth"
+   ],
+   [
+    271,
+    -2.7227,
+    -0.5842,
+    "smooth"
+   ],
+   [
+    315,
+    -1.8964,
+    -0.3264,
+    "smooth"
+   ],
+   [
+    445,
+    -1.8097,
+    -0.2966,
+    "smooth"
+   ]
+  ]
+ },
+ "vo": [
+  {
+   "beat": 1,
+   "path": "/Users/a1/DEV/elementors-marketing/vo/a_early_fire_reptile/beat_1.mp3",
+   "startFrame": 0
+  },
+  {
+   "beat": 2,
+   "path": "/Users/a1/DEV/elementors-marketing/vo/a_early_fire_reptile/beat_2.mp3",
+   "startFrame": 262
+  }
+ ],
+ "captions": [
+  {
+   "start": 0,
+   "end": 37,
+   "text": "Okay wait."
+  },
+  {
+   "start": 37,
+   "end": 86,
+   "text": "What happens if"
+  },
+  {
+   "start": 86,
+   "end": 190,
+   "text": "I put fire..."
+  },
+  {
+   "start": 190,
+   "end": 251,
+   "text": "on a lizard?"
+  },
+  {
+   "start": 262,
+   "end": 306,
+   "text": "OH."
+  },
+  {
+   "start": 307,
+   "end": 351,
+   "text": "Okay."
+  },
+  {
+   "start": 351,
+   "end": 407,
+   "text": "Okay okay okay."
+  }
+ ],
+ "beats": [
+  {
+   "n": 1,
+   "frame": 15,
+   "punch": false,
+   "at": "warmup"
+  },
+  {
+   "n": 2,
+   "frame": 250,
+   "punch": true,
+   "at": "impact"
+  }
+ ],
+ "totalFrames": 461
+}

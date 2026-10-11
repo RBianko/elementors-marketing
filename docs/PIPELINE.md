@@ -29,15 +29,14 @@ How a 9:16 short is produced from a written scenario. Two halves, two repos.
 
 The impact lands right after the last word of the pre-impact VO phrase. Place the gameplay clip so that `impact` marker frame = end of VO part A + ~5 frames; VO part B starts ~12 frames after impact. Trim the clip start at the `warmup` marker; if the VO needs lead-in before the first clean frame, hold a nearest-upscaled still of that frame (`ffmpeg -vf scale=3840:2160:flags=neighbor`).
 
-### Zoom
+### Tools (`/short` skill)
 
-`tools/zoom_keys.py <cursor.json> --trim <warmup frame>` prints clip-relative `scale` and `position` rows for `set_keyframes`:
+- `tools/scenario.py` — parses `scenarios/<name>.md` (frontmatter + numbered beats) and emits the harness JSON.
+- `tools/tts.py` — one ElevenLabs file per beat with word timings (`vo/<name>/beat_<n>.mp3` + `.words.json`), voice cache in `voices.json`, key from `.env`. Library voices over the API need a paid plan; premade voices work on free.
+- `tools/align.py` — render markers + voice durations → `renders/<name>/plan.json`: clip trim at `warmup`, voice placement (line before a punch ends 5 frames before it, a punch line starts 12 frames after), hold still when the first line needs lead-in, camera keyframes (follow cursor 1.45x, punch 1.95x, rest 1.4x), captions in ≤3-word chunks.
+- `tools/palmier_build.py` — builds the timeline in Palmier over the MCP HTTP endpoint and can export.
 
-- base framing at 1.0 (height fill, centered between cursor start and target slot),
-- follow the cursor at 1.45 from 40 frames after the first move until the drop (linear keys every 10 frames),
-- punch to 1.95 on the impact, hold 36 frames, ease back to 1.45, slow drift to the end.
-
-Keyframe frames are clip-relative in Palmier (0 = first frame of the clip). Position rows are the top-left corner in canvas units.
+Keyframe frames are clip-relative in Palmier (0 = first frame of the clip). Position rows are the top-left corner in canvas units; scale rows are the clip's normalized width/height, 1.0 = canvas axis.
 
 ### Voiceover
 

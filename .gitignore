@@ -8,3 +8,5 @@ palmier/**/thumbnail.jpg
 palmier/**/chat/
 .DS_Store
 .env
+exports/
+vo/*/
