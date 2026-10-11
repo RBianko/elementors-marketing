@@ -60,7 +60,26 @@ class Camera:
         self.pos.append([f, round(0.5 - cx / self.W * self.ar * s, 4), round(0.5 - cy / self.H * s, 4), interp])
 
 
-def build_camera(frames, markers, beats, trim, last, cam):
+FIGHT_ZOOM = (1.0, 1.6)
+
+
+def fight_keys(cam, fight, start, end, rel):
+    pts = [p for p in fight if start <= p["f"] < end]
+    if not pts:
+        return False
+    vis_w = cam.cw * (cam.H / cam.ch)
+    for i in range(0, len(pts), 12):
+        p = pts[i]
+        box = p.get("box") or {"w": vis_w, "h": cam.H}
+        zoom = min(vis_w / (box["w"] * 1.25), cam.H / (box["h"] * 1.25))
+        zoom = min(max(zoom, FIGHT_ZOOM[0]), FIGHT_ZOOM[1])
+        cam.key(rel(p["f"]), round(zoom, 2), p["x"], p["y"], interp="linear")
+    p = pts[-1]
+    cam.key(rel(p["f"]), cam.scale[-1][2], p["x"], p["y"], interp="linear")
+    return True
+
+
+def build_camera(frames, markers, beats, trim, last, cam, fight=()):
     def at(src):
         x, y = frames[min(max(src, 0), last)][:2]
         return x, y
@@ -115,9 +134,10 @@ def build_camera(frames, markers, beats, trim, last, cam):
             continue
         if battle[0] and seg_start <= battle[0]["f"] < seg_end:
             cam.key(rel(max(seg_start, cursor)), FOLLOW_ZOOM, *at(seg_start), interp="linear")
-            cam.key(rel(battle[0]["f"]) + 20, 1.0, cam.W / 2, cam.H / 2)
             end = battle[1]["f"] if battle[1] else seg_end
-            cam.key(rel(end), 1.0, cam.W / 2, cam.H / 2)
+            if not fight_keys(cam, fight, battle[0]["f"], end, rel):
+                cam.key(rel(battle[0]["f"]) + 20, 1.0, cam.W / 2, cam.H / 2)
+                cam.key(rel(end), 1.0, cam.W / 2, cam.H / 2)
             cursor = end
             continue
         if cursor_driven(b):
@@ -224,7 +244,7 @@ def main():
     end_clip = min(clip_len, max(last_vo_end + fps, rel(last_marker) + int(1.5 * fps)))
 
     cam = Camera(W, H, cw, ch)
-    build_camera(frames, markers, beats, trim, trim + end_clip - 1, cam)
+    build_camera(frames, markers, beats, trim, trim + end_clip - 1, cam, cur.get("fight", []))
 
     captions = []
     for v in vo:

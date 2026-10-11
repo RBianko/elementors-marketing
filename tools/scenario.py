@@ -38,6 +38,8 @@ def parse_value(v):
     v = v.strip()
     if v[:1] in "[{":
         return json.loads(v)
+    if v in ("true", "false"):
+        return v == "true"
     if re.fullmatch(r"-?\d+", v):
         return int(v)
     if re.fullmatch(r"-?\d+\.\d+", v):
