@@ -1,0 +1,9 @@
+renders/**/*.mp4
+renders/**/frames/
+renders/**/*.png
+vo/*.mp3
+vo/*.wav
+palmier/**/media/
+palmier/**/thumbnail.jpg
+palmier/**/chat/
+.DS_Store
