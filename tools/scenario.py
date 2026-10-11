@@ -136,7 +136,10 @@ def harness_json(sc):
     out["name"] = sc["meta"]["name"]
     actions = []
     for b in sc["beats"]:
-        actions.append({"do": "mark", "name": f"beat:{b['n']}"})
+        mark = {"do": "mark", "name": f"beat:{b['n']}"}
+        if b.get("focus"):
+            mark["focus"] = b["focus"]
+        actions.append(mark)
         actions.extend(b["actions"])
     out["actions"] = actions
     return out
