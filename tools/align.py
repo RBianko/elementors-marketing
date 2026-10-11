@@ -168,7 +168,8 @@ def main():
             continue
         fb = dict(b)
         fb["frame"] = m["f"]
-        if m.get("focus"):
+        explicit_focus = b.get("focus") or str(b["at"]) != f"beat:{b['n']}"
+        if m.get("focus") and explicit_focus:
             fo = m["focus"]
             fb["focus_rect"] = (fo["x"], fo["y"], fo["w"], fo["h"])
             fb["focus_xy"] = (fo["x"] + fo["w"] / 2, fo["y"] + fo["h"] / 2)
@@ -203,6 +204,13 @@ def main():
             start = rel(nxt["frame"]) - VO_GAP_BEFORE - dur
         else:
             start = rel(b["frame"]) + lead
+        if vo and not b.get("punch"):
+            prev_end = vo[-1]["start_clip"] + vo[-1]["dur"]
+            if start < prev_end + 6:
+                print(f"beat {b['n']}: voice pushed {prev_end + 6 - start} frames late, previous line overruns the beat (add idle time in the scenario)", file=sys.stderr)
+                start = prev_end + 6
+        elif vo and vo[-1]["start_clip"] + vo[-1]["dur"] > start:
+            print(f"beat {b['n']}: previous voice line overlaps this punch line, shorten it or add idle time", file=sys.stderr)
         vo.append({"beat": b["n"], "start_clip": start, "dur": dur, "mp3": b["mp3"], "words": b["words"]["words"]})
 
     offset = max([0] + [-v["start_clip"] for v in vo])

@@ -1,0 +1,423 @@
+{
+ "name": "f_battle_summary",
+ "fps": 60,
+ "canvas": [
+  1080,
+  1920
+ ],
+ "video": {
+  "path": "/Users/a1/DEV/elementors-marketing/renders/f_battle_summary/f_battle_summary.mp4",
+  "source": [
+   1.2,
+   20.8333
+  ],
+  "startFrame": 0,
+  "trim": 72
+ },
+ "hold": null,
+ "keyframes": {
+  "scale": [
+   [
+    0,
+    3.16,
+    1.0,
+    "smooth"
+   ],
+   [
+    20,
+    3.16,
+    1.0,
+    "smooth"
+   ],
+   [
+    60,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    70,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    80,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    90,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    100,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    110,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    120,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    130,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    140,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    150,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    160,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    170,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    180,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    190,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    190,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    191,
+    4.583,
+    1.45,
+    "linear"
+   ],
+   [
+    282,
+    3.16,
+    1.0,
+    "smooth"
+   ],
+   [
+    856,
+    3.16,
+    1.0,
+    "smooth"
+   ],
+   [
+    893,
+    4.583,
+    1.45,
+    "smooth"
+   ],
+   [
+    901,
+    7.585,
+    2.4,
+    "smooth"
+   ],
+   [
+    937,
+    7.585,
+    2.4,
+    "smooth"
+   ],
+   [
+    1177,
+    7.585,
+    2.4,
+    "smooth"
+   ]
+  ],
+  "position": [
+   [
+    0,
+    -1.3395,
+    0.0,
+    "smooth"
+   ],
+   [
+    20,
+    -1.3395,
+    0.0,
+    "smooth"
+   ],
+   [
+    60,
+    -2.2986,
+    -0.3163,
+    "linear"
+   ],
+   [
+    70,
+    -2.3129,
+    -0.3042,
+    "linear"
+   ],
+   [
+    80,
+    -2.3105,
+    -0.3056,
+    "linear"
+   ],
+   [
+    90,
+    -2.3105,
+    -0.3056,
+    "linear"
+   ],
+   [
+    100,
+    -2.3105,
+    -0.3056,
+    "linear"
+   ],
+   [
+    110,
+    -2.3105,
+    -0.3056,
+    "linear"
+   ],
+   [
+    120,
+    -2.3105,
+    -0.3056,
+    "linear"
+   ],
+   [
+    130,
+    -2.3105,
+    -0.3056,
+    "linear"
+   ],
+   [
+    140,
+    -2.3105,
+    -0.3056,
+    "linear"
+   ],
+   [
+    150,
+    -2.3105,
+    -0.3056,
+    "linear"
+   ],
+   [
+    160,
+    -2.3141,
+    -0.3049,
+    "linear"
+   ],
+   [
+    170,
+    -2.3188,
+    -0.3042,
+    "linear"
+   ],
+   [
+    180,
+    -2.32,
+    -0.3042,
+    "linear"
+   ],
+   [
+    190,
+    -2.32,
+    -0.3042,
+    "linear"
+   ],
+   [
+    190,
+    -2.32,
+    -0.3042,
+    "linear"
+   ],
+   [
+    191,
+    -2.32,
+    -0.3042,
+    "linear"
+   ],
+   [
+    282,
+    -1.0802,
+    0.0,
+    "smooth"
+   ],
+   [
+    856,
+    -1.0802,
+    0.0,
+    "smooth"
+   ],
+   [
+    893,
+    -1.607,
+    -0.0498,
+    "smooth"
+   ],
+   [
+    901,
+    -2.9874,
+    -0.41,
+    "smooth"
+   ],
+   [
+    937,
+    -2.9874,
+    -0.41,
+    "smooth"
+   ],
+   [
+    1177,
+    -2.9874,
+    -0.41,
+    "smooth"
+   ]
+  ]
+ },
+ "vo": [
+  {
+   "beat": 1,
+   "path": "/Users/a1/DEV/elementors-marketing/vo/f_battle_summary/beat_1.mp3",
+   "startFrame": 0
+  },
+  {
+   "beat": 2,
+   "path": "/Users/a1/DEV/elementors-marketing/vo/f_battle_summary/beat_2.mp3",
+   "startFrame": 212
+  },
+  {
+   "beat": 3,
+   "path": "/Users/a1/DEV/elementors-marketing/vo/f_battle_summary/beat_3.mp3",
+   "startFrame": 381
+  },
+  {
+   "beat": 4,
+   "path": "/Users/a1/DEV/elementors-marketing/vo/f_battle_summary/beat_4.mp3",
+   "startFrame": 913
+  }
+ ],
+ "captions": [
+  {
+   "start": 0,
+   "end": 38,
+   "text": "Okay."
+  },
+  {
+   "start": 38,
+   "end": 137,
+   "text": "This reptile is"
+  },
+  {
+   "start": 137,
+   "end": 179,
+   "text": "supposed to be"
+  },
+  {
+   "start": 180,
+   "end": 212,
+   "text": "mid."
+  },
+  {
+   "start": 212,
+   "end": 254,
+   "text": "Fire,"
+  },
+  {
+   "start": 254,
+   "end": 322,
+   "text": "two stars."
+  },
+  {
+   "start": 322,
+   "end": 381,
+   "text": "Nothing special."
+  },
+  {
+   "start": 381,
+   "end": 425,
+   "text": "Let's see."
+  },
+  {
+   "start": 913,
+   "end": 957,
+   "text": "...Four hundred and"
+  },
+  {
+   "start": 957,
+   "end": 1005,
+   "text": "seventy?!"
+  },
+  {
+   "start": 1010,
+   "end": 1078,
+   "text": "Okay."
+  },
+  {
+   "start": 1078,
+   "end": 1135,
+   "text": "Okay okay okay."
+  }
+ ],
+ "beats": [
+  {
+   "n": 1,
+   "frame": 0,
+   "punch": false,
+   "at": "beat:1"
+  },
+  {
+   "n": 2,
+   "frame": 39,
+   "punch": false,
+   "at": "beat:2"
+  },
+  {
+   "n": 3,
+   "frame": 191,
+   "punch": false,
+   "at": "beat:3"
+  },
+  {
+   "n": 4,
+   "frame": 901,
+   "punch": true,
+   "at": "summary:focus"
+  }
+ ],
+ "totalFrames": 1178
+}
