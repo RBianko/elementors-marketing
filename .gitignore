@@ -7,3 +7,4 @@ palmier/**/media/
 palmier/**/thumbnail.jpg
 palmier/**/chat/
 .DS_Store
+.env
