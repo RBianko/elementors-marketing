@@ -25,6 +25,7 @@ DRIFT = 0.3
 BATTLE_SEC = 39.0
 SUMMARY_SETTLE = 1.0
 PUNCH_DEADLINE = 5.5
+REACTION_DELAY = 1.0
 TOTAL_MIN, TOTAL_MAX = 10.0, 32.0
 MAX_WORDS_PER_LINE = 16
 
@@ -88,8 +89,10 @@ def lint(path):
                             for nb in beats[i + 1:] if not nb["vo"])
         nxt = beats[i + 1] if i + 1 < len(beats) else None
         anchored_end = b.get("anchor") == "end" or (nxt is not None and nxt["punch"] and not b["punch"])
-        if b["vo"] and not anchored_end and vo_secs > budget + 0.4:
-            problems.append(f"beat {n}: line needs ~{vo_secs:.1f}s but the beat and the silent beats after it last ~{budget:.1f}s; add idle/wait or shorten the line")
+        # A reaction starts a beat after the event (align.py VO_LEAD_AFTER_PUNCH).
+        need = vo_secs + (REACTION_DELAY if b["punch"] else 0.0)
+        if b["vo"] and not anchored_end and need > budget + 0.4:
+            problems.append(f"beat {n}: line needs ~{need:.1f}s with the reaction delay but the beat and the silent beats after it last ~{budget:.1f}s; add idle/wait or shorten the line")
         if words > MAX_WORDS_PER_LINE:
             problems.append(f"beat {n}: {words} words in one line; a streamer would say it in two beats")
         if b["vo"] and ("—" in b["vo"] or "–" in b["vo"]):

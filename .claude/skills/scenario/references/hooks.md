@@ -7,6 +7,7 @@ Distilled from `docs/SHORTS_RESEARCH.md` (sources there). This is the producer's
 - The hook is spoken and on screen inside the first 2 s; the stake is clear by 3 s (TikTok: proposition in 3 s, hook in 6 s). Frame one already moves: a cursor on its way, a reroll being pressed, never a static board.
 - Cold open: payoff inside 5 s, then the reaction, then the button. Slow build: setup by 3 s, tension to 8-12 s, payoff by 15 s at the latest, button right after. Nothing explains between 5 and 8 s; that is where viewers leave when the middle narrates instead of unfolding.
 - Length 10-25 s for one moment. End on the last meaningful frame, not on the celebration; no dead air at the end, loops die there.
+- A reaction lands about 1 s after the event, not on its frame. A roll, a merge, an impact or a stat line gets a beat to be seen before the player answers it; a line that starts with the animation sounds read off a script. The gap is silence over the event itself, not dead air: the camera is on the payoff.
 - Something visibly changes every 5-8 s: a punch, a new region, a number on screen, a second event.
 
 ## Hook types (pick one per cut; two cuts of the same moment use two different ones)
