@@ -27,11 +27,14 @@ import argparse
 import json
 import re
 import sys
+from pathlib import Path
+
+REPO = Path(__file__).resolve().parent.parent
 
 BEAT_RE = re.compile(r"^\s*(\d+)\.\s*(.*?)\s*$")
 VO_RE = re.compile(r"\s(?:—|--)\s*[\"“](.*)[\"”]\s*$")
 OPTS_RE = re.compile(r"\{([^}]*)\}")
-EDIT_KEYS = {"name", "voice", "vo", "music", "model"}
+EDIT_KEYS = {"name", "voice", "vo", "music", "model", "base", "hook", "angle", "mood", "promise", "button", "render"}
 
 
 def parse_value(v):
@@ -138,6 +141,8 @@ def parse(path):
 
 def harness_json(sc):
     out = {k: v for k, v in sc["meta"].items() if k not in EDIT_KEYS}
+    if isinstance(out.get("save"), str) and not out["save"].startswith("/"):
+        out["save"] = str((REPO / out["save"]).resolve())
     out["name"] = sc["meta"]["name"]
     actions = []
     for b in sc["beats"]:

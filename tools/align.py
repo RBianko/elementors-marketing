@@ -172,8 +172,13 @@ def main():
     args = ap.parse_args()
     sc = scenario.parse(args.scenario)
     name = sc["meta"]["name"]
-    rdir = os.path.join(ROOT, "renders", name)
-    cur = json.load(open(os.path.join(rdir, f"{name}.cursor.json")))
+    # An A/B variant shares the render of its base scenario; only voice,
+    # plan and hold still are its own.
+    base = sc["meta"].get("base", name)
+    rdir = os.path.join(ROOT, "renders", base)
+    odir = os.path.join(ROOT, "renders", name)
+    os.makedirs(odir, exist_ok=True)
+    cur = json.load(open(os.path.join(rdir, f"{base}.cursor.json")))
     fps, W, H = cur["fps"], cur["width"], cur["height"]
     cw, ch = (int(v) for v in args.canvas.split("x"))
     frames = {f["f"]: (f["x"], f["y"], f["down"]) for f in cur["frames"]}
@@ -258,7 +263,7 @@ def main():
 
     hold = None
     if offset > 0:
-        png = os.path.join(rdir, "hold_first.png")
+        png = os.path.join(odir, "hold_first.png")
         src_png = os.path.join(rdir, "frames", f"frame{trim:08d}.png")
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", src_png, "-vf", f"scale={W}:{H}:flags=neighbor", png], check=True)
         hold = {"png": png, "frames": [0, offset], "transform": {"centerX": round(cam.pos[0][1] + cam.scale[0][1] / 2, 4), "centerY": 0.5,
@@ -266,10 +271,11 @@ def main():
 
     plan = {
         "name": name,
+        "base": base,
         "source_build": cur.get("source_build"),
         "fps": fps,
         "canvas": [cw, ch],
-        "video": {"path": os.path.join(rdir, f"{name}.mp4"), "source": [round(trim / fps, 4), round((trim + end_clip) / fps, 4)],
+        "video": {"path": os.path.join(rdir, f"{base}.mp4"), "source": [round(trim / fps, 4), round((trim + end_clip) / fps, 4)],
                   "startFrame": offset, "trim": trim},
         "hold": hold,
         "keyframes": {"scale": cam.scale, "position": cam.pos},
@@ -278,7 +284,7 @@ def main():
         "beats": [{"n": b["n"], "frame": offset + rel(b["frame"]), "punch": bool(b.get("punch")), "at": b["at"]} for b in beats],
         "totalFrames": offset + end_clip,
     }
-    out = args.out or os.path.join(rdir, "plan.json")
+    out = args.out or os.path.join(odir, "plan.json")
     json.dump(plan, open(out, "w"), indent=1)
     print(f"plan: {out}")
     print(f"  clip src {plan['video']['source']} at frame {offset}, total {plan['totalFrames']} frames ({plan['totalFrames'] / fps:.1f}s)")

@@ -1,5 +1,6 @@
 {
  "name": "f_battle_summary",
+ "base": "f_battle_summary",
  "source_build": "",
  "fps": 60,
  "canvas": [

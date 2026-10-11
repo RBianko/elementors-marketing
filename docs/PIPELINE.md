@@ -18,6 +18,7 @@ How a 9:16 short is produced from a written scenario. Two halves, two repos.
   - `frames/`: raw 1280x720 PNGs + `frame.wav`.
 - Marker names: `warmup`, `beat:N` (one per scenario beat, from `mark` actions), `drag_start:<element>`, `drop:<element>`, `apply:<element>`, `impact:<element>` (apply + suction, the big beat), `star_up`, `cascade_end`, `battle_start`, `battle_end`, `summary`, `summary:damage`, `summary:synergies`, `summary:unit:N`, `summary:dps:N`, `summary:kills:N`, `summary:focus`. Every marker except `warmup` carries `focus: {x, y, w, h}` in output pixels.
 - Actions: `wander`, `hover`, `click`, `drag`, `wait`, `idle`, `drift`, `mark`, `battle` (clicks BATTLE for real, `speed` sets the fight's time scale), `summary` (opens the recap, marks every row).
+- Shop card override: `"offer": {"kind": "echo_2star", "unit": "reptile", "element": "fire", "stars": 2}` → `RunState.debug_next_offer`, consumed by the next refresh.
 - Real player boards: `"board": "supabase"` with `stage`, `pick`, `require_bare`, `min_units`, `exclude`; snapshots cached in `pwn-zz/build/player_snapshots.json` (5016 demo boards, stages 1–3, refetched 2026-10-11). `SHOT_BUILD=<id>` reproduces a short; `source_build` is written into cursor.json.
 
 ## Edit (this repo)
@@ -30,6 +31,15 @@ How a 9:16 short is produced from a written scenario. Two halves, two repos.
 
 The impact lands right after the last word of the pre-impact VO phrase. Place the gameplay clip so that `impact` marker frame = end of VO part A + ~5 frames; VO part B starts ~12 frames after impact. Trim the clip start at the `warmup` marker; if the VO needs lead-in before the first clean frame, hold a nearest-upscaled still of that frame (`ffmpeg -vf scale=3840:2160:flags=neighbor`).
 
+### Writing (`/scenario` skill)
+
+- Turns a raw moment ("late game, lucky roll, merge to 3★") into `scenarios/<name>.md`: hook type, beats the harness can film, streamer voice lines, captions, a `## Brief` block with the angle, emotion arc, proof frame, button, alt hook, render route and assumptions. References: `.claude/skills/scenario/references/game.md` (mechanics, harness limits) and `hooks.md` (hook taxonomy, structure, voice, captions), sources in `docs/SHORTS_RESEARCH.md`.
+- Frontmatter keys `hook`, `angle`, `mood`, `promise`, `button`, `render` are edit-side and never reach the harness. `save:` is resolved to an absolute path for the harness.
+- `tools/scenario_lint.py` — pre-render estimate: voice length vs action time per beat, first punch second, total length, target and option validity. Opening line may lead in on a hold still; a line may run over the silent beats after it.
+- Shop cards: `offer: {kind, unit, element, stars}` arms `RunState.debug_next_offer` in the game; the next refresh the scenario triggers (a reroll click) places exactly that card in the bonus slot with the reveal FX. The same override sits in the game's debug menu ("Next offer / Arm"). Fallbacks: `save:` with a hand-written save, or a seed search.
+- A/B variants: `scenarios/<name>__<hooktype>.md` with `base: <name>`, same beats, different first line, 0:00 caption and button. `align.py` reads the base render and writes the variant's own `renders/<variant>/plan.json`; `/short` never renders a variant. The lint refuses a variant whose beats drift from the base.
+- After the lint, `/scenario` runs the `shorts-critic` agent (`.claude/agents/shorts-critic.md`): seven PASS/FAIL checks and up to three rewrites, two rounds at most.
+
 ### Tools (`/short` skill)
 
 - `tools/scenario.py` — parses `scenarios/<name>.md` (frontmatter + numbered beats) and emits the harness JSON.
@@ -41,7 +51,7 @@ Keyframe frames are clip-relative in Palmier (0 = first frame of the clip). Posi
 
 ### Voiceover
 
-ElevenLabs "Ninja - Engaging Sports Commentator" voice. The script contains an `(impact)` beat, which ElevenLabs renders as a knock. Find it on a spectrogram (broadband transient, no harmonics; local transcription mislabels it as a stretched word) and cut the file into part A (before) and part B (after):
+ElevenLabs "Ninja - Engaging Sports Commentator" voice (library voice, paid plan over the API; `liam` is the premade fallback). eleven_v3 reads an all-caps word as an acronym, so `tts.py` sends "THREE" as "Three" and keeps the caps only in the caption words. The script contains an `(impact)` beat, which ElevenLabs renders as a knock. Find it on a spectrogram (broadband transient, no harmonics; local transcription mislabels it as a stretched word) and cut the file into part A (before) and part B (after):
 
 ```
 ffmpeg -i in.mp3 -af "atrim=start=S:end=E,asetpts=PTS-STARTPTS,afade=t=in:d=0.02,afade=t=out:st=(E-S-0.03):d=0.03" out.wav
@@ -61,4 +71,4 @@ TikTok style: Poppins-Bold, 60 pt, uppercase, white, black outline 8, soft shado
 
 ## Scenario ideas
 
-a early fire on reptile (done, two cuts) · b synergy tier pop · c 1->2->3 star cascade · d wrong element then right one · e one reptile, all 13 elements, for a music-only cut · combat before/after · "pick the element" poll format.
+a early fire on reptile (done, two cuts) · b synergy tier pop · c 1->2->3 star cascade · d wrong element then right one · e one reptile, all 13 elements, for a music-only cut · f battle recap number · g real player board · h lucky roll into 3★ via `offer:` and a reroll · combat before/after · "pick the element" poll format.

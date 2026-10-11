@@ -14,10 +14,15 @@ Everything runs from the repo root `/Users/a1/DEV/elementors-marketing`. Tools a
 - `/short rerender <name>` — force a new Godot render even if one exists.
 - `--export` — also export `exports/<name>.mp4` at the end.
 - `--voice <name>` — override the scenario voice for this run (e.g. a premade voice when the library voice is not allowed by the plan).
+- `/short <name> --variants` — also build every `scenarios/<name>__*.md` that has `base: <name>`: same render, own voice, plan and timeline.
+
+## A/B variants
+
+A scenario with `base: <other>` in its frontmatter is an A/B variant written by `/scenario`: identical beats, different first line, 0:00 caption and button. Never render it. Require `renders/<base>/<base>.cursor.json` (render the base first if missing), then run steps 3-5 for the variant by its own name: `tts.py` writes `vo/<variant>/`, `align.py` reads the base render and writes `renders/<variant>/plan.json`, `palmier_build.py` makes the timeline `<variant> 9x16`. Report both timelines side by side so the user can compare the hooks.
 
 ## Steps
 
-1. **Parse.** `python3 -I tools/scenario.py scenarios/<name>.md --beats`. Check that every beat with a voice line has an `at:` marker that the harness will produce (`beat:N` once the harness supports `mark`, or a legacy marker such as `impact`, `warmup`, `drop:<element>`, `star_up`). Scenario format is in the docstring of `tools/scenario.py` and in `docs/PIPELINE.md`.
+1. **Parse.** `python3 -I tools/scenario.py scenarios/<name>.md --beats` and `python3 -I tools/scenario_lint.py scenarios/<name>.md` (estimates only; a WARN about a slow-build punch is fine, a timing WARN means the render will push a line late). Check that every beat with a voice line has an `at:` marker that the harness will produce (`beat:N` once the harness supports `mark`, or a legacy marker such as `impact`, `warmup`, `drop:<element>`, `star_up`). Scenario format is in the docstring of `tools/scenario.py` and in `docs/PIPELINE.md`.
 
 2. **Render** when `renders/<name>/<name>.cursor.json` is missing or `rerender` was asked:
    ```
@@ -42,6 +47,7 @@ Everything runs from the repo root `/Users/a1/DEV/elementors-marketing`. Tools a
 - Targets: `board:N`, `bench:N`, `stash:N`, `shop:N`, `recap:N` (summary row), `board:bare` (first bare 1★), `board:best`, `board:any`, `board:empty`, `node:%UniqueName`.
 - Beat options in braces: `at: <marker>` (default `beat:N`; use `impact`, `drop:<el>`, `star_up`, `summary:focus`, `battle_end` when the beat should land on a game event), `punch`, `focus: <target|region>` (regions: shop, board, synergies, bench, stash, dice, battle, roll, gold, level, hp, tooltip), `zoom: <x>`, `align: left|center|right` (which end of a wide focus rect to frame, use `right` for summary numbers), `lead: <frames>`, `anchor: start|end`.
 - Voice line length must fit the beat: the harness does not wait for speech. If align.py prints "voice pushed N frames late", add idle time to that beat in the scenario and rerender.
+- Shop cards: `offer: {"kind": "echo_2star", "unit": "reptile", "element": "fire", "stars": 2}` arms the bonus slot; the card appears on the next refresh the scenario triggers (`click node:%RerollButton`), with the reveal FX. A missing `star_up` after the buy means the gold did not cover it or the merge landed on the bench.
 - Real player boards: `board: supabase`, `stage: [2, 3]`, `pick: random|<build id>`, `require_bare: true`, `min_units: 3`, `exclude: [ids]`. The chosen build id lands in cursor.json and plan.json as `source_build`; `SHOT_BUILD=<id>` before shot_movie.sh reproduces it, `SHOT_PICK_SEED=<int>` makes a random pick repeatable only for the same snapshot cache; after a refetch, pin with `SHOT_BUILD`. Snapshots come from `pwn-zz/build/player_snapshots.json` (refresh with `tools/builds_run.sh --refetch` in pwn-zz).
 - Battle beats: use PvE rounds (round 8 = Stage 2-3 PvE) until PvP opponents are pinned. A fight is ~39 s at speed 1; set `speed=4..6`.
 - Renders queue on a lock in pwn-zz; two renders never run at once.
@@ -50,6 +56,7 @@ Everything runs from the repo root `/Users/a1/DEV/elementors-marketing`. Tools a
 
 - Captions: Poppins-Bold 60 uppercase, black outline 8, yellow highlightPop, y 0.72, max 3 words. Defined once in `tools/palmier_build.py`.
 - Shorts look like stream clips: no end card, no "free demo" plate, no AI webcam. Voiceover only.
+- `tools/tts.py` sends all-caps words capitalized (eleven_v3 spells "THREE" letter by letter) and restores the caps in the word timings for captions. Library voices need a paid plan; `liam` and `harry` are premade.
 - `voices.json` is a cache maintained by `tools/tts.py`; never ask the user to edit it. `voice:` in a scenario accepts a short name, an ElevenLabs voice name, or a raw voice id.
 - Secrets live in `.env` (`ELEVENLABS_API_KEY`), never in the repo.
 - Renders are deterministic: same scenario, same frames. A changed scenario needs a rerender; a changed voice line only needs steps 3–5.

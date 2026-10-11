@@ -89,6 +89,20 @@ def words_from_alignment(al):
     return words
 
 
+# eleven_v3 reads an all-caps word as an acronym ("THREE" -> T-H-R-E-E), so the
+# spoken text gets capitalized words while captions keep the shout.
+def spoken_text(line):
+    return re.sub(r"\b([A-Z]{2,})\b", lambda m: m.group(1).capitalize(), line)
+
+
+def restore_caps(words, line):
+    toks = line.split()
+    if len(toks) == len(words):
+        for w, tok in zip(words, toks):
+            w[0] = tok
+    return words
+
+
 def words_proportional(text, duration):
     toks = text.split()
     weights = [len(re.sub(r"[^\w]", "", t)) + 1 for t in toks]
@@ -153,18 +167,18 @@ def main():
     for i, b in enumerate(spoken):
         mp3 = os.path.join(out_dir, f"beat_{b['n']}.mp3")
         meta_path = os.path.join(out_dir, f"beat_{b['n']}.words.json")
-        digest = hashlib.sha1(f"{voice_id}|{model}|{b['vo']}".encode()).hexdigest()
+        text = spoken_text(b["vo"])
+        digest = hashlib.sha1(f"{voice_id}|{model}|{text}".encode()).hexdigest()
         if not args.force and os.path.exists(meta_path) and json.load(open(meta_path)).get("digest") == digest:
             print(f"beat {b['n']}: cached")
             continue
-        prev = spoken[i - 1]["vo"] if i > 0 else None
-        nxt = spoken[i + 1]["vo"] if i + 1 < len(spoken) else None
-        print(f"beat {b['n']}: {b['vo']}")
-        audio, words = synth(key, voice_id, model, b["vo"], prev, nxt)
+        prev = spoken_text(spoken[i - 1]["vo"]) if i > 0 else None
+        nxt = spoken_text(spoken[i + 1]["vo"]) if i + 1 < len(spoken) else None
+        print(f"beat {b['n']}: {text}")
+        audio, words = synth(key, voice_id, model, text, prev, nxt)
         open(mp3, "wb").write(audio)
         dur = duration_of(mp3)
-        if words is None:
-            words = words_proportional(b["vo"], dur)
+        words = restore_caps(words, b["vo"]) if words else words_proportional(b["vo"], dur)
         json.dump({"text": b["vo"], "duration": dur, "words": words, "digest": digest, "voice_id": voice_id, "model": model},
                   open(meta_path, "w"), indent=1, ensure_ascii=False)
         print(f"  -> {mp3} ({dur:.2f}s, {len(words)} words)")

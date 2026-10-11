@@ -6,13 +6,16 @@ Short-form video pipeline for Elementors. A short is written as a markdown scena
 
 | Path | What |
 |---|---|
-| `scenarios/*.md` | Scenario per short: board setup in the frontmatter, numbered beats with actions and voice lines |
+| `scenarios/*.md` | Scenario per short: board setup in the frontmatter, numbered beats with actions and voice lines, a `## Brief` block; `<name>__<hook>.md` with `base:` are A/B variants sharing the base render |
 | `renders/<name>/` | Harness output: `<name>.mp4`, `<name>.cursor.json` (cursor track, markers with focus rects, fight track, source build), `plan.json` (edit plan) |
 | `vo/<name>/` | One voice file per beat plus word timings |
 | `palmier/` | Palmier Pro projects; `ELEMS.palmier` holds the shorts timelines |
-| `tools/` | `scenario.py`, `tts.py`, `align.py`, `palmier_build.py` |
+| `tools/` | `scenario.py`, `scenario_lint.py`, `tts.py`, `align.py`, `palmier_build.py` |
 | `docs/PIPELINE.md` | The full contract between the harness and the edit, timing and camera rules |
-| `.claude/skills/short/` | The `/short` skill |
+| `.claude/skills/scenario/` | The `/scenario` skill: raw idea → produced scenario (hook, beats, voice lines, brief) |
+| `.claude/skills/short/` | The `/short` skill: scenario → rendered, voiced, assembled short |
+| `.claude/agents/shorts-critic.md` | The critic `/scenario` runs after the lint |
+| `docs/SHORTS_RESEARCH.md` | Sources behind the hook, structure and voice rules |
 | `voices.json` | ElevenLabs voice cache, maintained by `tts.py` |
 
 Media, renders, voice files and Palmier media caches are not committed.
@@ -29,6 +32,7 @@ Media, renders, voice files and Palmier media caches are not committed.
 In Claude Code, from this directory:
 
 ```
+/scenario late game, reroll hits the lucky slot, buy, 2+2+2 = 3 star, YESSSS   # write scenarios/<name>.md
 /short a_early_fire_reptile          # build the short for scenarios/a_early_fire_reptile.md
 /short rerender f_battle_summary     # force a new Godot render first
 /short voices                        # list the account's ElevenLabs voices
@@ -37,6 +41,7 @@ In Claude Code, from this directory:
 By hand, the same steps:
 
 ```
+python3 -I tools/scenario_lint.py scenarios/<name>.md
 python3 -I tools/scenario.py scenarios/<name>.md --harness > /Users/a1/DEV/pwn-zz/tools/scenarios/shots/<name>.json
 (cd /Users/a1/DEV/pwn-zz && SHOT_MOVIE_ROOT=$PWD/renders tools/shot_movie.sh <name>)
 python3 -I tools/tts.py scenarios/<name>.md

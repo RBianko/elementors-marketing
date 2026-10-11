@@ -1,5 +1,7 @@
 {
  "name": "a_early_fire_reptile",
+ "base": "a_early_fire_reptile",
+ "source_build": null,
  "fps": 60,
  "canvas": [
   1080,
