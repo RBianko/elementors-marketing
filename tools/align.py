@@ -20,6 +20,7 @@ FOLLOW_ZOOM = 1.45
 PUNCH_ZOOM = 1.95
 REST_ZOOM = 1.4
 PUNCH_HOLD = 36
+PUNCH_LEAD = 20
 VO_GAP_BEFORE = 5
 VO_LEAD_AFTER_PUNCH = 12
 MAX_CAPTION_WORDS = 3
@@ -50,8 +51,10 @@ class Camera:
         self.ar = (W / H) / (cw / ch)
         self.cw, self.ch = cw, ch
         self.scale, self.pos = [], []
+        self.last = None
 
     def key(self, f, s, cx, cy, interp="smooth"):
+        self.last = (s, cx, cy)
         vh = self.H / s
         vw = self.cw * (self.H / self.ch) / s
         cx = min(max(cx, vw / 2), self.W - vw / 2)
@@ -88,7 +91,20 @@ def build_camera(frames, markers, beats, trim, last, cam, fight=()):
         return src - trim
 
     def cursor_driven(b):
-        return any(a["do"] in ("drag", "hover", "click", "drift", "wander") for a in b.get("actions", []))
+        does = {a["do"] for a in b.get("actions", [])}
+        if does & {"drag", "hover", "click", "drift"}:
+            return True
+        return "wander" in does and not b.get("focus_rect")
+
+    def settle_after(s, end):
+        x0, y0 = at(s)
+        move = next((f for f in range(s, end) if abs(frames[f][0] - x0) + abs(frames[f][1] - y0) > 15), None)
+        if move is None or move <= s + 2:
+            return s
+        cam.key(rel(move), *cam.last)
+        arrive = next((f for f in range(move + 1, end) if abs(frames[f][0] - frames[f - 1][0]) + abs(frames[f][1] - frames[f - 1][1]) < 1.0), end - 1)
+        cam.key(rel(arrive), FOLLOW_ZOOM, *at(arrive), interp="linear")
+        return arrive
 
     def fit(b):
         fx, fy, fw, fh = b["focus_rect"]
@@ -115,7 +131,9 @@ def build_camera(frames, markers, beats, trim, last, cam, fight=()):
     cursor = max(first_move + 40, trim + 1)
     for i, b in enumerate(ordered):
         seg_start = max(b["frame"], trim)
-        seg_end = ordered[i + 1]["frame"] if i + 1 < len(ordered) else last
+        nxt = ordered[i + 1] if i + 1 < len(ordered) else None
+        seg_end = nxt["frame"] if nxt else last
+        follow_end = seg_end - PUNCH_LEAD if nxt and nxt.get("punch") else seg_end
         if b.get("punch"):
             if b.get("focus_rect"):
                 zoom, px, py = fit(b)
@@ -127,9 +145,9 @@ def build_camera(frames, markers, beats, trim, last, cam, fight=()):
             cam.key(rel(seg_start), zoom, px, py)
             cam.key(rel(seg_start) + PUNCH_HOLD, zoom, px, py)
             if b.get("focus_rect") and b.get("zoom"):
-                cam.key(rel(seg_end), zoom, px, py)
+                cam.key(rel(follow_end), zoom, px, py)
             else:
-                cam.key(rel(seg_start) + PUNCH_HOLD + 44, FOLLOW_ZOOM, px, py + 30)
+                cam.key(min(rel(seg_start) + PUNCH_HOLD + 44, rel(follow_end)), FOLLOW_ZOOM, px, py + 30)
             cursor = seg_end
             continue
         if battle[0] and seg_start <= battle[0]["f"] < seg_end:
@@ -142,14 +160,16 @@ def build_camera(frames, markers, beats, trim, last, cam, fight=()):
             continue
         if cursor_driven(b):
             s = max(seg_start, cursor)
-            for f in range(s, seg_end, 10):
+            if i > 0 and ordered[i - 1].get("punch") and cam.last:
+                s = settle_after(s, follow_end)
+            for f in range(s, follow_end, 10):
                 cam.key(rel(f), FOLLOW_ZOOM, *at(f), interp="linear")
-            cam.key(rel(seg_end) - 1, FOLLOW_ZOOM, *at(seg_end - 1), interp="linear")
+            cam.key(rel(follow_end) - 1, FOLLOW_ZOOM, *at(follow_end - 1), interp="linear")
             cursor = seg_end
         elif b.get("focus_rect"):
             zoom, cx, cy = fit(b)
             cam.key(rel(seg_start) + 15, zoom, cx, cy)
-            cam.key(rel(seg_end) - 1, zoom, cx, cy)
+            cam.key(rel(follow_end) - 1, zoom, cx, cy)
             cursor = seg_end
     if not any(k[0] >= rel(last) - 1 for k in cam.scale):
         lx, ly = cam.pos[-1][1], cam.pos[-1][2]

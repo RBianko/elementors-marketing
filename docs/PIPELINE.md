@@ -11,7 +11,7 @@ How a 9:16 short is produced from a written scenario. Two halves, two repos.
   ```
 - Renders through Godot `--write-movie --fixed-fps 60`, deterministic. Viewport 1280x720, nearest-upscaled 3x to 3840x2160, H.264 CRF 10 + AAC.
 - Warm-up: every element's ImpactFx/ElementFx plays under a black matte before the `warmup` marker. Everything before that marker is discarded in the edit.
-- Fake cursor drives the real drag-and-drop: Bezier path, overshoot and settle, sub-pixel jitter, hover before pick-up and drop, wander/drift after the impact. DEBUG button hidden.
+- Fake cursor drives the real drag-and-drop: Bezier path, overshoot and settle, sub-pixel jitter, hover before pick-up and drop, wander/drift after the impact. DEBUG button hidden. Injected mouse events carry device id 77; every other mouse event (the OS mouse crossing the render window) is marked handled before the GUI sees it, so moving the real mouse during a render no longer turns cards or swaps hover. Code that polls the cursor (shop card turn, drag card, drag trail, floating tooltip, forest parallax, round gold drift, scout card) reads it through `ui/components/pointer.gd` in pwn-zz: `Viewport.get_mouse_position()` returns the OS cursor and ignores injected motion, so without the seam a hovered shop card froze at its first-hover tilt. The harness sets `Pointer.override` every frame.
 - Output per scenario in `renders/<scenario>/`:
   - `<scenario>.mp4`
   - `<scenario>.cursor.json`: `{fps, width, height, scale, frames:[{f,x,y,down}], markers:[{f,name}]}` in output pixels.
@@ -44,7 +44,7 @@ The impact lands right after the last word of the pre-impact VO phrase. Place th
 
 - `tools/scenario.py` — parses `scenarios/<name>.md` (frontmatter + numbered beats) and emits the harness JSON.
 - `tools/tts.py` — one ElevenLabs file per beat with word timings (`vo/<name>/beat_<n>.mp3` + `.words.json`), voice cache in `voices.json`, key from `.env`. Library voices over the API need a paid plan; premade voices work on free.
-- `tools/align.py` — render markers + voice durations → `renders/<name>/plan.json`: clip trim at `warmup`, voice placement (line before a punch ends 5 frames before it, a punch line starts 12 frames after), hold still when the first line needs lead-in, camera keyframes (follow cursor 1.45x, punch 1.95x, rest 1.4x), captions in ≤3-word chunks.
+- `tools/align.py` — render markers + voice durations → `renders/<name>/plan.json`: clip trim at `warmup`, voice placement (line before a punch ends 5 frames before it, a punch line starts 12 frames after), hold still when the first line needs lead-in, camera keyframes (follow cursor 1.45x, punch 1.95x, rest 1.4x; a beat with only `wander` and a `focus:` frames that region instead of following, e.g. `focus: tooltip` while the cursor wanders on a board unit; the segment before a punch ends 20 frames early so the camera glides to the punch target in one move; after a punch the camera holds the punch frame until the cursor has moved and settled, then follows, so a cursor parked on the shop after the buy does not drag the camera up and back), captions in ≤3-word chunks.
 - `tools/palmier_build.py` — builds the timeline in Palmier over the MCP HTTP endpoint and can export.
 
 Keyframe frames are clip-relative in Palmier (0 = first frame of the clip). Position rows are the top-left corner in canvas units; scale rows are the clip's normalized width/height, 1.0 = canvas axis.

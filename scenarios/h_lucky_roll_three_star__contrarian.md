@@ -21,13 +21,14 @@ cursor_start: [700, 520]
 ---
 1. idle 0.6; hover board:0 0.8; idle 0.6 {focus: board:0} — "Chat said sell the second reptile."
 2. hover node:%RerollButton 0.4; click node:%RerollButton; wait 0.7 {focus: shop} — "Two gold. Come on."
-3. hover shop:4 0.8; idle 0.3 {punch, focus: shop:4, zoom: 2.0} — "...wait."
-4. click shop:4; wait 0.5; idle 1.2 {at: star_up, punch, focus: board:0} — "YESSSS."
-5. hover board:0 1.2; idle 0.8 {focus: board:0} — "Three star. THREE."
-6. drift 30,20; hover board:2 0.6; idle 2.0 {focus: board} — "Sell it, they said."
+3. hover shop:4 0.1; wander 2.0 r40; idle 0.2 {punch, focus: shop:4, zoom: 2.0} — "...wait."
+4. click shop:4; wait 0.5; idle 0.8 {at: star_up, punch, focus: board:0} — "YESSSS."
+5. hover board:0 0.2; wander 0.5 r8 {focus: board:0} — "Three star. THREE."
+6. wander 2.2 r6 {focus: tooltip, zoom: 1.4} — "Look at those stats."
+7. drift 30,20; hover board:2 0.4; idle 2.2 {focus: board} — "Sell it, they said."
 
 ## Brief
 - Variant of h_lucky_roll_three_star: same beats, same render. Changes only line 1, the 0:00 caption and the button.
 - Hook: contrarian. Chat's advice is the stake, the lucky slot proves chat wrong.
-- Captions: SELL IT, CHAT · COME ON · WAIT · YESSSS · THREE · THEY SAID
+- Captions: SELL IT, CHAT · COME ON · WAIT · YESSSS · THREE · THOSE STATS · THEY SAID
 - Button: "Sell it, they said." Callback to the hook.
