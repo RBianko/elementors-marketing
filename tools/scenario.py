@@ -17,7 +17,8 @@ Scenario format:
 
 Beat line: `N. <actions> {options} — "voice line"`. Actions are `;`-separated, the
 braces and the voice line are optional. Options: `at: <marker>` (defaults to
-`beat:N`), `punch`, `focus: <name>`, `lead: <frames>`, `anchor: start|end`.
+`beat:N`), `punch`, `focus: <name>`, `lead: <frames>`, `anchor: start|end`, `zoom: <factor>`,
+`align: left|center|right` (which end of a wide focus rect to frame).
 Everything in the frontmatter except name/voice/vo/music is passed through to
 the harness scenario (seed, round, level, gold, dice, board, bench, stash,
 cursor_start, ...). JSON values are allowed on a single line.
@@ -78,8 +79,10 @@ def parse_action(token):
         act.update({"from": src, "to": dst})
         if rest:
             act["hold"] = float(rest[0])
-    elif do == "wait":
+    elif do in ("wait", "idle"):
         act["s"] = float(args[0])
+    elif do == "click":
+        act["target"] = args[0]
     elif do == "drift":
         dx, dy = args[0].split(",")
         act["by"] = [float(dx), float(dy)]

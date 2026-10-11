@@ -68,40 +68,69 @@ def build_camera(frames, markers, beats, trim, last, cam):
     def rel(src):
         return src - trim
 
-    downs = []
-    start = None
-    for f in range(trim, last + 1):
-        d = frames[f][2]
-        if d and start is None:
-            start = f
-        if not d and start is not None:
-            downs.append((start, f))
-            start = None
-    if start is not None:
-        downs.append((start, last))
+    def cursor_driven(b):
+        return any(a["do"] in ("drag", "hover", "click", "drift", "wander") for a in b.get("actions", []))
+
+    def fit(b):
+        fx, fy, fw, fh = b["focus_rect"]
+        zoom = b.get("zoom")
+        if not zoom:
+            vis_w = cam.cw * (cam.H / cam.ch)
+            zoom = min(vis_w / (fw * 1.3), cam.H / (fh * 1.3))
+            zoom = min(max(zoom, 1.0), 2.6)
+        vw = cam.cw * (cam.H / cam.ch) / zoom
+        align = b.get("align", "center")
+        cx = fx + fw / 2 if align == "center" else (fx + vw * 0.45 if align == "left" else fx + fw - vw * 0.45)
+        return zoom, cx, fy + fh / 2
 
     x0, y0 = at(trim)
-    tx, ty = at(downs[0][1]) if downs else at(last)
-    base_c = ((x0 + tx) / 2, cam.H / 2)
     first_move = next((f for f in range(trim, last + 1) if abs(frames[f][0] - x0) + abs(frames[f][1] - y0) > 15), trim + 1)
+    first_target = next((b["focus_xy"] for b in beats if b.get("focus_xy")), None) or at(last)
+    base_c = ((x0 + first_target[0]) / 2, cam.H / 2)
     cam.key(0, 1.0, *base_c)
-    cam.key(rel(first_move), 1.0, *base_c)
+    if first_move > trim + 1:
+        cam.key(rel(first_move), 1.0, *base_c)
 
-    punches = sorted(b["frame"] for b in beats if b.get("punch"))
-    follow_end = max([e for _, e in downs] + [first_move + 60])
-    follow_end = min(follow_end, min(punches) - 10 if punches else last)
-    for f in range(first_move + 40, follow_end + 1, 10):
-        cam.key(rel(f), FOLLOW_ZOOM, *at(f), interp="linear")
-    cam.key(rel(follow_end), FOLLOW_ZOOM, *at(follow_end), interp="linear")
-    for p in punches:
-        px, py = (beats_focus(beats, p) or at(p))
-        cam.key(rel(p) - 8, FOLLOW_ZOOM, px, py)
-        cam.key(rel(p), PUNCH_ZOOM, px, py)
-        cam.key(rel(p) + PUNCH_HOLD, PUNCH_ZOOM, px, py)
-        cam.key(rel(p) + PUNCH_HOLD + 44, FOLLOW_ZOOM, px, py + 30)
-    ex, ey = at(last)
-    lx, ly = (at(punches[-1]) if punches else (ex, ey))
-    cam.key(rel(last), REST_ZOOM, (lx + ex) / 2, (ly + ey) / 2 + 40)
+    battle = marker_frame(markers, "battle_start"), marker_frame(markers, "battle_end")
+    ordered = sorted(beats, key=lambda b: b["frame"])
+    cursor = max(first_move + 40, trim + 1)
+    for i, b in enumerate(ordered):
+        seg_start = max(b["frame"], trim)
+        seg_end = ordered[i + 1]["frame"] if i + 1 < len(ordered) else last
+        if b.get("punch"):
+            px, py = b.get("focus_xy") or at(seg_start)
+            zoom = b.get("zoom") or PUNCH_ZOOM
+            cam.key(rel(seg_start) - 8, FOLLOW_ZOOM, px, py)
+            cam.key(rel(seg_start), zoom, px, py)
+            cam.key(rel(seg_start) + PUNCH_HOLD, zoom, px, py)
+            if b.get("focus_rect") and b.get("zoom"):
+                cam.key(rel(seg_end), zoom, px, py)
+            else:
+                cam.key(rel(seg_start) + PUNCH_HOLD + 44, FOLLOW_ZOOM, px, py + 30)
+            cursor = seg_end
+            continue
+        if battle[0] and seg_start <= battle[0]["f"] < seg_end:
+            cam.key(rel(max(seg_start, cursor)), FOLLOW_ZOOM, *at(seg_start), interp="linear")
+            cam.key(rel(battle[0]["f"]) + 20, 1.0, cam.W / 2, cam.H / 2)
+            end = battle[1]["f"] if battle[1] else seg_end
+            cam.key(rel(end), 1.0, cam.W / 2, cam.H / 2)
+            cursor = end
+            continue
+        if cursor_driven(b):
+            s = max(seg_start, cursor)
+            for f in range(s, seg_end, 10):
+                cam.key(rel(f), FOLLOW_ZOOM, *at(f), interp="linear")
+            cam.key(rel(seg_end) - 1, FOLLOW_ZOOM, *at(seg_end - 1), interp="linear")
+            cursor = seg_end
+        elif b.get("focus_rect"):
+            zoom, cx, cy = fit(b)
+            cam.key(rel(seg_start) + 15, zoom, cx, cy)
+            cam.key(rel(seg_end) - 1, zoom, cx, cy)
+            cursor = seg_end
+    if not any(k[0] >= rel(last) - 1 for k in cam.scale):
+        lx, ly = cam.pos[-1][1], cam.pos[-1][2]
+        ex, ey = at(last)
+        cam.key(rel(last), REST_ZOOM, ex, ey + 40)
 
 
 def beats_focus(beats, frame):
@@ -141,6 +170,7 @@ def main():
         fb["frame"] = m["f"]
         if m.get("focus"):
             fo = m["focus"]
+            fb["focus_rect"] = (fo["x"], fo["y"], fo["w"], fo["h"])
             fb["focus_xy"] = (fo["x"] + fo["w"] / 2, fo["y"] + fo["h"] / 2)
         if b["vo"]:
             wp = os.path.join(ROOT, "vo", name, f"beat_{b['n']}.words.json")
@@ -166,7 +196,8 @@ def main():
             continue
         dur = round(b["words"]["duration"] * fps)
         nxt = beats[i + 1] if i + 1 < len(beats) else None
-        anchor = b.get("anchor") or ("end" if (nxt and nxt.get("punch") and not b.get("punch")) else "start")
+        gap = (nxt["frame"] - b["frame"]) if nxt else None
+        anchor = b.get("anchor") or ("end" if (nxt and nxt.get("punch") and not b.get("punch") and gap < dur + 2 * fps) else "start")
         lead = int(b.get("lead", VO_LEAD_AFTER_PUNCH if b.get("punch") else 0))
         if anchor == "end" and nxt:
             start = rel(nxt["frame"]) - VO_GAP_BEFORE - dur
