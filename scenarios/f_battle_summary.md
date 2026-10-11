@@ -10,7 +10,7 @@ board: [{"slot": 0, "unit": "reptile", "element": "fire", "stars": 2}, {"slot": 
 stash: []
 cursor_start: [700, 520]
 ---
-1. idle 0.6 — "Okay. This reptile is supposed to be mid."
-2. hover board:0 1.2; idle 0.5 {focus: board:0} — "Fire, two stars. Nothing special."
-3. battle hold=0.2 speed=4 {focus: battle} — "Let's see."
+1. idle 3.6 — "Okay. This reptile is supposed to be mid."
+2. hover board:0 1.6; idle 1.4 {focus: board:0} — "Fire, two stars. Nothing special."
+3. battle hold=0.2 speed=6 {focus: battle} — "Let's see."
 4. summary focus=dps:0 hold=0.3; hover recap:0 1.5; drift 40,30; idle 1.2 {at: summary:focus, punch, zoom: 2.4, align: right} — "...Four hundred and seventy?! Okay. Okay okay okay."

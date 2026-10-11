@@ -36,6 +36,16 @@ Everything runs from the repo root `/Users/a1/DEV/elementors-marketing`. Tools a
 
 7. **Report** in chat: timeline name, length, what to check by ear (voice vs game audio balance), export path if any. Do not export unless asked.
 
+## Scenario cheat sheet
+
+- Actions per beat, `;`-separated: `idle <s>`, `wait <s>`, `wander <s> r<px>`, `drift <dx>,<dy>`, `hover <target> [hold]`, `click <target>`, `drag <from> -> <to> [hold]`, `battle hold=<s> speed=<x>`, `summary focus=dps:<slot> hold=<s>`.
+- Targets: `board:N`, `bench:N`, `stash:N`, `shop:N`, `recap:N` (summary row), `board:bare` (first bare 1★), `board:best`, `board:any`, `board:empty`, `node:%UniqueName`.
+- Beat options in braces: `at: <marker>` (default `beat:N`; use `impact`, `drop:<el>`, `star_up`, `summary:focus`, `battle_end` when the beat should land on a game event), `punch`, `focus: <target|region>` (regions: shop, board, synergies, bench, stash, dice, battle, roll, gold, level, hp, tooltip), `zoom: <x>`, `align: left|center|right` (which end of a wide focus rect to frame, use `right` for summary numbers), `lead: <frames>`, `anchor: start|end`.
+- Voice line length must fit the beat: the harness does not wait for speech. If align.py prints "voice pushed N frames late", add idle time to that beat in the scenario and rerender.
+- Real player boards: `board: supabase`, `stage: [2, 3]`, `pick: random|<build id>`, `require_bare: true`, `min_units: 3`, `exclude: [ids]`. The chosen build id lands in cursor.json and plan.json as `source_build`; `SHOT_BUILD=<id>` before shot_movie.sh reproduces it, `SHOT_PICK_SEED=<int>` makes a random pick repeatable. Snapshots come from `pwn-zz/build/player_snapshots.json` (refresh with `tools/builds_run.sh --refetch` in pwn-zz).
+- Battle beats: use PvE rounds (round 8 = Stage 2-3 PvE) until PvP opponents are pinned. A fight is ~39 s at speed 1; set `speed=4..6`.
+- Renders queue on a lock in pwn-zz; two renders never run at once.
+
 ## Conventions
 
 - Captions: Poppins-Bold 60 uppercase, black outline 8, yellow highlightPop, y 0.72, max 3 words. Defined once in `tools/palmier_build.py`.

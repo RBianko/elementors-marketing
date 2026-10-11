@@ -16,8 +16,9 @@ How a 9:16 short is produced from a written scenario. Two halves, two repos.
   - `<scenario>.mp4`
   - `<scenario>.cursor.json`: `{fps, width, height, scale, frames:[{f,x,y,down}], markers:[{f,name}]}` in output pixels.
   - `frames/`: raw 1280x720 PNGs + `frame.wav`.
-- Marker names: `warmup`, `drag_start:<element>`, `drop:<element>`, `apply:<element>`, `impact:<element>` (apply + suction, the big beat), `star_up`, `cascade_end`.
-- Planned: board state from real player builds (Supabase, `tools/builds_*.py`) converted to a save for `SHOT_LOAD_SAVE`, random mid-game build + random slot + random element per short so no two shorts look alike.
+- Marker names: `warmup`, `beat:N` (one per scenario beat, from `mark` actions), `drag_start:<element>`, `drop:<element>`, `apply:<element>`, `impact:<element>` (apply + suction, the big beat), `star_up`, `cascade_end`, `battle_start`, `battle_end`, `summary`, `summary:damage`, `summary:synergies`, `summary:unit:N`, `summary:dps:N`, `summary:kills:N`, `summary:focus`. Every marker except `warmup` carries `focus: {x, y, w, h}` in output pixels.
+- Actions: `wander`, `hover`, `click`, `drag`, `wait`, `idle`, `drift`, `mark`, `battle` (clicks BATTLE for real, `speed` sets the fight's time scale), `summary` (opens the recap, marks every row).
+- Real player boards: `"board": "supabase"` with `stage`, `pick`, `require_bare`, `min_units`, `exclude`; snapshots cached in `pwn-zz/build/player_snapshots.json` (1208 demo boards, stages 1–3 as of 2026-08-05). `SHOT_BUILD=<id>` reproduces a short; `source_build` is written into cursor.json.
 
 ## Edit (this repo)
 

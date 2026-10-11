@@ -98,8 +98,12 @@ def build_camera(frames, markers, beats, trim, last, cam):
         seg_start = max(b["frame"], trim)
         seg_end = ordered[i + 1]["frame"] if i + 1 < len(ordered) else last
         if b.get("punch"):
-            px, py = b.get("focus_xy") or at(seg_start)
-            zoom = b.get("zoom") or PUNCH_ZOOM
+            if b.get("focus_rect"):
+                zoom, px, py = fit(b)
+                zoom = b.get("zoom") or PUNCH_ZOOM
+            else:
+                px, py = at(seg_start)
+                zoom = b.get("zoom") or PUNCH_ZOOM
             cam.key(rel(seg_start) - 8, FOLLOW_ZOOM, px, py)
             cam.key(rel(seg_start), zoom, px, py)
             cam.key(rel(seg_start) + PUNCH_HOLD, zoom, px, py)
@@ -242,6 +246,7 @@ def main():
 
     plan = {
         "name": name,
+        "source_build": cur.get("source_build"),
         "fps": fps,
         "canvas": [cw, ch],
         "video": {"path": os.path.join(rdir, f"{name}.mp4"), "source": [round(trim / fps, 4), round((trim + end_clip) / fps, 4)],
