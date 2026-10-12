@@ -42,9 +42,11 @@ Hit the 3★ on the last gold · highroll opener · lucky roll that answers the 
 
 ## Voice: what a streamer sounds like
 
+The short version. The devices, the lexicon by moment, the budgets per short and the rules for the voice are in `voice.md`, with the evidence in `docs/VOICE_REFERENCE_CLIPS.md`; the `streamer-voice` agent applies them.
+
 Keep: decisions said aloud ("okay, reroll, two gold, fine"), "we" with chat, stacked interjections ("okay okay okay"), the stop mid-word at the moment of the roll ("is that... no. NO."), hedged confidence ("this is probably fine"), the swing phrases "it's so over" / "we're so back", "copium", "lock in", "cooked", numbers the way players say them ("four seventy"). One address to chat per short at most.
 
-Cut: adjectives from an ad (amazing, epic, insane as a description, satisfying), superlatives about the game, feature explanations the viewer did not ask for, complete tidy sentences, enthusiasm with no cause on screen, "download now", "free pulls", any line that would sound like a promo if read flat. Read every line aloud; if it sounds like copy, rewrite it as what the player would blurt.
+Cut: adjectives from an ad (amazing, epic, satisfying; "insane", "disgusting", "broken" are fine as a blurt about a thing on screen, never as a description of the game), superlatives about the game, feature explanations the viewer did not ask for, complete tidy sentences, enthusiasm with no cause on screen, "download now", "free pulls", any line that would sound like a promo if read flat. Read every line aloud; if it sounds like copy, rewrite it as what the player would blurt.
 
 ElevenLabs shaping: ellipses and periods for stops, exclamation marks for a shout, short sentences for pace. All-caps words are fine in the line (the captions keep them) because `tts.py` sends them capitalized: eleven_v3 reads a capitalized-all word as an acronym, letter by letter. Avoid dashes inside a line; the parser and the voice both read them badly.
 

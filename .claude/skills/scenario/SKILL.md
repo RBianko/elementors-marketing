@@ -5,9 +5,9 @@ description: Turn a raw idea for an Elementors short (one sentence in Russian or
 
 # /scenario
 
-Input is a raw moment. Output is `scenarios/<name>.md` that `/short` can build without a rewrite, and a brief that says why the short should work. Four hats, in order: **producer** (angle, hook, structure), **streamer** (voice lines), **harness engineer** (actions that render), **editor** (humanize, lint, A/B), then an outside **critic** (the `shorts-critic` agent). Keep the hats separate; the usual failure is a voice line written by the engineer or a beat written by the producer.
+Input is a raw moment. Output is `scenarios/<name>.md` that `/short` can build without a rewrite, and a brief that says why the short should work. Five hats, in order: **producer** (angle, hook, structure), **streamer** (voice lines), **harness engineer** (actions that render), **voice** (the `streamer-voice` agent, the slang layer that makes the lines sound like a person), **editor** (lint, A/B), then an outside **critic** (the `shorts-critic` agent). Keep the hats separate; the usual failure is a voice line written by the engineer or a beat written by the producer.
 
-Repo root `/Users/a1/DEV/elementors-marketing`. Read `references/game.md` before writing a single beat (mechanics, vocabulary, what the harness can and cannot film) and `references/hooks.md` before choosing the hook (hook types, structure, VO authenticity rules, caption rules).
+Repo root `/Users/a1/DEV/elementors-marketing`. Read `references/game.md` before writing a single beat (mechanics, vocabulary, what the harness can and cannot film), `references/hooks.md` before choosing the hook (hook types, structure, VO authenticity rules, caption rules), and `references/voice.md` before writing a line (how a streamer sounds: devices, lexicon by moment, budgets per short, what the voice can say).
 
 ## Arguments
 
@@ -16,6 +16,7 @@ Repo root `/Users/a1/DEV/elementors-marketing`. Read `references/game.md` before
 - `/scenario <raw text> --name <slug>` — force the file name; otherwise `<letter>_<slug>` continues the `a..g` series in `scenarios/`.
 - `/scenario rehook <name>` — keep the beats of an existing scenario, rewrite only the hook line, the button line and the captions.
 - `/scenario brief <name>` — print the brief block of an existing scenario.
+- `/scenario voice <name>` — keep the beats and the hook type, run only the voice pass (step 6) on an existing scenario: the `streamer-voice` agent proposes, you apply the picks, re-lint, rewrite the captions line of the brief. `/short <name>` then re-voices on the cached render (its steps 3-5), no rerender.
 
 ## Steps
 
@@ -23,20 +24,24 @@ Repo root `/Users/a1/DEV/elementors-marketing`. Read `references/game.md` before
 
 2. **Producer: pick the angle and the structure.** From `references/hooks.md` choose one hook type for the main cut and a different one for the alt. Write the one-sentence promise of the short ("a 2★ copy shows up in the bonus slot at round 14 and the board goes 3★ on the spot"). Decide the structure: cold open (payoff inside 5 s) or slow build (setup, tension, payoff, button) and where the proof moment lands in seconds. Decide the button: the last line that makes the viewer replay, comment or try it. No CTA of any kind, no plate, no "download now", no "it's free"; the game name may be said once at most, as a streamer would, or not at all.
 
-3. **Streamer: write the lines.** One line per beat, 3-12 words, English, spoken not written. Reactions before explanations. Self-talk, stacked "okay okay okay", mid-sentence stops, hedges ("this is probably fine"), chat address at most once. Numbers said the way a player says them ("four seventy" not "470 damage"). No adjectives from an ad ("amazing", "epic", "satisfying"), no feature lists, no perfect grammar. Every line answers "what would the player blurt out right now", not "what does the viewer need to know". The user's anchor lines go in untouched.
+3. **Streamer: write the lines.** One line per beat, 3-12 words, English, spoken not written. Reactions before explanations. Self-talk, stacked "okay okay okay", mid-sentence stops, hedges ("this is probably fine"), chat address at most once. Numbers said the way a player says them ("four seventy" not "470 damage"). No adjectives from an ad ("amazing", "epic", "satisfying"), no feature lists, no perfect grammar. Every line answers "what would the player blurt out right now", not "what does the viewer need to know". The user's anchor lines go in untouched. This draft gets roughed up by the voice pass in step 6; still write it as speech with the lexicon of `references/voice.md`, so the agent improves lines instead of replacing them.
 
 4. **Harness engineer: write the beats.** Use only actions, targets, markers and frontmatter keys from `references/game.md`. The visible event of each line is on screen while the line is said. The punch beat is the on-screen event the hook promised, with `at:` set to the marker the harness emits for it (`impact`, `star_up`, `summary:focus`), `punch`, and a `focus`. Give every voiced beat enough action time for its line; silent beats after a punch line are where the line lands. A reaction never fires on the frame of the event: after a roll, a drop, a merge, a reveal or a tooltip with the new stats, the player first looks, then reacts. Budget about 1 s between the event and the line (`align.py` starts a punch line 60 frames after the punch), so a punch beat needs the line plus 1 s of action after its marker. Set up the frontmatter so the moment is reachable: board, bench, stash, gold, round, level, seed. When the moment needs a shop card (lucky roll, a specific unit), arm it with the `offer:` key and place the card with a reroll click, as `references/game.md` describes; a card that is already in the shop at setup shows no reveal FX.
 
-5. **Editor: humanize, lint, A/B.** Run the `humanizer` skill in embedded mode on the voice lines and the brief: no AI vocabulary, no rule-of-three stacks, no dashes inside lines, no tidy explanations. Then:
+5. **Lint.** Write the file, then:
    ```
    python3 -I tools/scenario.py scenarios/<name>.md --beats
    python3 -I tools/scenario_lint.py scenarios/<name>.md
    ```
-   Fix every WARN that is not a deliberate slow build. With `--variants`, write each variant file now (same beats, `base:` set, only line 1, the 0:00 caption and the button differ) and lint it too; the lint refuses a variant whose beats drift from the base.
+   Fix every WARN that is not a deliberate slow build.
 
-6. **Critic.** Spawn the `shorts-critic` agent on the file (Agent tool, `subagent_type: shorts-critic`, prompt = the path). Agents from `.claude/agents/` register at session start; if the type is not available, spawn `general-purpose` with the body of `.claude/agents/shorts-critic.md` as the prompt followed by the path. It returns SHIP or REVISE with up to three rewrites. On REVISE apply the rewrites you agree with, re-lint, run the critic once more. After two rounds stop either way and carry any remaining FAIL into the brief as "Critic: ...". The critic is a second pair of eyes, not an authority: a rewrite that breaks the game facts or the user's anchor lines is refused with a one-line reason in the brief.
+6. **Voice pass.** Spawn the `streamer-voice` agent on the file (Agent tool, `subagent_type: streamer-voice`, prompt = the path plus the anchor lines in quotes; if the type is not registered, spawn `general-purpose` with the body of `.claude/agents/streamer-voice.md` as the prompt followed by the path). It returns, per line, two or three streamer readings with a pick, plus delivery tags, caption chunks and beat changes. Apply the picks you agree with; take another option where the pick loses the stake or a fact; apply a beat change only when the line is worth the extra idle; refuse, with a one-line reason in the brief ("Voice: ..."), anything that breaks the game facts, the hook rules or an anchor. Re-run the lint: a pick that adds a timing WARN goes back to budget. Rewrite the captions line of the brief from the agent's chunks. Then run the `humanizer` skill in embedded mode on the brief only; the lines are the agent's domain, and a repeat or a stack is not an AI tell.
 
-7. **Report** in chat: file path, the hook line, the promise, the punch second, the render route (plain / save file / seed hunt) and the open questions, in five lines or fewer. Then stop; `/short <name>` is the next command, not yours to run.
+7. **Variants.** With `--variants`, write each variant file now (same beats, `base:` set, only line 1, the 0:00 caption and the button differ) and lint it too; the lint refuses a variant whose beats drift from the base. A variant's new lines go through the voice budgets as well: a hook with a stake and no jargon, a button that calls back or hedges.
+
+8. **Critic.** Spawn the `shorts-critic` agent on the file (Agent tool, `subagent_type: shorts-critic`, prompt = the path). Agents from `.claude/agents/` register at session start; if the type is not available, spawn `general-purpose` with the body of `.claude/agents/shorts-critic.md` as the prompt followed by the path. It returns SHIP or REVISE with up to three rewrites. On REVISE apply the rewrites you agree with, re-lint, run the critic once more. After two rounds stop either way and carry any remaining FAIL into the brief as "Critic: ...". The critic is a second pair of eyes, not an authority: a rewrite that breaks the game facts, the user's anchor lines or the voice texture is refused with a one-line reason in the brief.
+
+9. **Report** in chat: file path, the hook line, the promise, the punch second, the render route (plain / save file / seed hunt) and the open questions, in five lines or fewer. Then stop; `/short <name>` is the next command, not yours to run.
 
 ## Output file
 
@@ -63,12 +68,12 @@ stash: []
 offer: {"kind": "echo_2star", "unit": "reptile", "element": "fire", "stars": 2}
 cursor_start: [700, 520]
 ---
-1. idle 0.4; hover board:0 0.6 {focus: board:0} — "Round fourteen. I need one more fire reptile."
-2. hover node:%RerollButton 0.4; click node:%RerollButton; wait 0.7 {focus: shop} — "Two gold. Come on."
+1. idle 0.4; hover board:0 1.8 {focus: board:0} — "One more. One more fire reptile."
+2. hover node:%RerollButton 0.4; click node:%RerollButton; wait 0.7 {focus: shop} — "Two gold. Come on, come on."
 3. hover shop:4 0.8; idle 0.3 {punch, focus: shop:4, zoom: 2.0} — "...wait."
-4. click shop:4; wait 0.5; idle 1.2 {at: star_up, punch, focus: board:0} — "YESSSS."
-5. hover board:0 1.2; idle 0.8 {focus: board:0} — "That's the three star."
-6. drift 30,20; hover board:2 0.6; idle 2.0 {focus: board} — "My best board so far. Not even close."
+4. click shop:4; wait 0.5; idle 1.6 {at: star_up, punch, focus: board:0} — "[happy gasp] YESSS. Yes yes yes."
+5. hover board:0 2.4; idle 1.0 {focus: board:0} — "There it is. THREE. Look at the stats."
+6. drift 30,20; hover board:2 0.6; idle 4.0 {focus: board} — "My best board so far. Not even close. Like, not even close."
 
 ## Brief
 - Angle: late game, the player is one copy short of a 3★ carry and the lucky slot hands it over on a two-gold reroll.
@@ -76,7 +81,8 @@ cursor_start: [700, 520]
 - Emotion arc: want, disbelief, hype, smug.
 - Proof frame: two punches. Beat 3 on the rainbow reveal in shop:4, beat 4 on the `star_up` marker with the 3★ sparkle and edge glow on board:0.
 - Button: "My best board so far. Not even close." Flex with a dare in it.
-- Captions: ROUND 14 · ONE MORE · COME ON · WAIT · YESSSS · THREE STAR · BEST BOARD
+- Captions: ONE MORE · COME ON · WAIT · YESSS · THREE · THE STATS · NOT EVEN CLOSE
+- Voice: pass applied; beat 1 option C ("Chat, one more. One.") refused, chat is spent on the alt hook.
 - Alt hook (contrarian): "Chat said sell the second reptile. Chat." Alt button: "Sell it, they said."
 - Alt hook (number): "Twenty percent. That's the odds on this slot." Alt button: "Twenty percent. Sure."
 - Render: offer route. `offer:` arms the bonus slot, the reroll click in beat 2 places the card with the full reveal FX. No save file, no seed hunt.
@@ -93,6 +99,7 @@ Rules the parser imposes: beat lines start with `N. `, actions are `;`-separated
 - The button is a line that invites a reply ("tell me that's not the best board you've seen today"), not a slogan.
 - The brief fits on one screen and tells `/short` exactly what has to be true at render time.
 - Two shorts from the same moment differ in hook and button, not in beats.
+- Read the lines in a row: one person talking over a run, with a repeat and a stumble in it, not seven captions.
 
 ## A/B variants
 

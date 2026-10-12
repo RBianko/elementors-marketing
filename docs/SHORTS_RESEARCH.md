@@ -32,7 +32,8 @@ Eklipse rules worth keeping: "Start on the moment the situation becomes hard, no
 - Slang: chat, F, GG, Pog, "it's so over / we're so back", copium, lock in. https://instreamly.com/posts/twitch-slang-you-need-to-know-in-2022/ · https://knowyourmeme.com/memes/its-so-over-were-so-back · https://merriam-webster.com/slang/copium
 - "Make every hook a sentence a customer would say aloud. Taglines fail on camera." (UGC Roster). "Read the script aloud, and rewrite any line that sounds like ad copy." (Retiplex). "If the brief sounds like an ad, the creator will too." https://motionapp.com/library/frameworks/voice-copy-standards
 - Fake tells: wooden actors in headphones, false enthusiasm, selling the feeling not the game (https://www.thegamer.com/fake-streamers-mobile-games-promotion-adverts/); Nexon AI-streamer ads flagged for unnatural speech and superlatives (https://www.notebookcheck.net/Nexon-s-The-First-Descendant-gets-mired-in-controversy-over-using-streamer-s-AI-likeness-in-advertisements.1090166.0.html); "download now off this video, 100 free pulls" as the scam-sounding CTA (https://www.sanlo.io/resources/i-studied-30-mobile-game-ads-on-tiktok-this-is-what-i-learned).
-- ElevenLabs pauses and tags: https://elevenlabs.io/docs/product/prompting/pauses
+- ElevenLabs pauses and tags: https://elevenlabs.io/docs/product/prompting/pauses · v3 audio tags and punctuation: https://elevenlabs.io/docs/best-practices/prompting
+- Ten reference shorts from real streamers (Batomon Showdown, Backpack Battles, TFT), transcribed and distilled: `docs/VOICE_REFERENCE_CLIPS.md` → `.claude/skills/scenario/references/voice.md`.
 
 ## Autobattler moments
 

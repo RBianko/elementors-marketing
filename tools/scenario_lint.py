@@ -28,6 +28,13 @@ PUNCH_DEADLINE = 5.5
 REACTION_DELAY = 1.0
 TOTAL_MIN, TOTAL_MAX = 10.0, 32.0
 MAX_WORDS_PER_LINE = 16
+TAG_SEC = 0.4
+MAX_TAGS = 2
+TAGS = {"laughs", "chuckles", "sighs", "exhales", "exhales sharply", "whispers", "excited", "surprised",
+        "happy gasp", "short pause", "nervously", "sarcastic", "deadpan"}
+AD_WORDS = {"amazing", "epic", "awesome", "incredible", "satisfying", "stunning", "powerful", "unleash",
+            "experience", "strategy", "ultimate", "download", "subscribe"}
+TAG_RE = re.compile(r"\[([a-z][a-z ]*)\]")
 
 MARKERS = {"warmup", "impact", "star_up", "cascade_end", "battle_start", "battle_end",
            "summary", "summary:focus", "summary:damage", "summary:synergies"}
@@ -59,9 +66,11 @@ def action_seconds(a):
 
 
 def speech_seconds(line):
+    tags = len(TAG_RE.findall(line))
+    line = TAG_RE.sub(" ", line)
     words = re.findall(r"[A-Za-z0-9'’]+", line)
     sentences = len(re.findall(r"[.!?…]+", line)) or 1
-    return len(words) * SEC_PER_WORD + sentences * SEC_PER_SENTENCE_PAUSE, len(words)
+    return len(words) * SEC_PER_WORD + sentences * SEC_PER_SENTENCE_PAUSE + tags * TAG_SEC, len(words)
 
 
 def marker_ok(name):
@@ -74,6 +83,7 @@ def lint(path):
     problems, rows = [], []
     t = 0.0
     first_punch = None
+    tag_total = 0
     for i, b in enumerate(beats):
         n = b["n"]
         secs = sum(action_seconds(a) for a in b["actions"])
@@ -97,6 +107,19 @@ def lint(path):
             problems.append(f"beat {n}: {words} words in one line; a streamer would say it in two beats")
         if b["vo"] and ("—" in b["vo"] or "–" in b["vo"]):
             problems.append(f"beat {n}: dash inside the voice line; use a period or an ellipsis")
+        if b["vo"]:
+            tags = TAG_RE.findall(b["vo"])
+            tag_total += len(tags)
+            for tag in tags:
+                if tag not in TAGS:
+                    problems.append(f"beat {n}: audio tag [{tag}] is not in the voice.md list")
+            if tags and not b["vo"].startswith("["):
+                problems.append(f"beat {n}: audio tag belongs at the start of the line")
+            if tags and i == 0:
+                problems.append(f"beat {n}: audio tag on the hook line; the hook has to land clean")
+            ad = sorted({w for w in re.findall(r"[a-z]+", b["vo"].lower()) if w in AD_WORDS})
+            if ad:
+                problems.append(f"beat {n}: ad word {', '.join(ad)}; say what the player would blurt")
         if not marker_ok(str(b["at"])):
             problems.append(f"beat {n}: unknown marker at: {b['at']}")
         for a in b["actions"]:
@@ -115,6 +138,8 @@ def lint(path):
             if f not in REGIONS and not TARGET_RE.match(f):
                 problems.append(f"beat {n}: bad focus {f}")
         t += secs
+    if tag_total > MAX_TAGS:
+        problems.append(f"{tag_total} audio tags; two per short at most, the words carry the emotion")
     if first_punch is None:
         problems.append("no punch beat: the short has no impact moment")
     elif first_punch > PUNCH_DEADLINE:

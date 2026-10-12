@@ -95,6 +95,23 @@ def spoken_text(line):
     return re.sub(r"\b([A-Z]{2,})\b", lambda m: m.group(1).capitalize(), line)
 
 
+# v3 audio tags ([laughs], [happy gasp]) are spoken, never captioned.
+def strip_tags(line):
+    return re.sub(r"\s*\[[a-z][a-z ]*\]\s*", " ", line).strip()
+
+
+def drop_tag_words(words):
+    out, in_tag = [], False
+    for w in words:
+        if w[0].startswith("["):
+            in_tag = True
+        if not in_tag:
+            out.append(w)
+        if w[0].endswith("]"):
+            in_tag = False
+    return out
+
+
 def restore_caps(words, line):
     toks = line.split()
     if len(toks) == len(words):
@@ -168,6 +185,7 @@ def main():
         mp3 = os.path.join(out_dir, f"beat_{b['n']}.mp3")
         meta_path = os.path.join(out_dir, f"beat_{b['n']}.words.json")
         text = spoken_text(b["vo"])
+        caption = strip_tags(b["vo"])
         digest = hashlib.sha1(f"{voice_id}|{model}|{text}".encode()).hexdigest()
         if not args.force and os.path.exists(meta_path) and json.load(open(meta_path)).get("digest") == digest:
             print(f"beat {b['n']}: cached")
@@ -178,8 +196,8 @@ def main():
         audio, words = synth(key, voice_id, model, text, prev, nxt)
         open(mp3, "wb").write(audio)
         dur = duration_of(mp3)
-        words = restore_caps(words, b["vo"]) if words else words_proportional(b["vo"], dur)
-        json.dump({"text": b["vo"], "duration": dur, "words": words, "digest": digest, "voice_id": voice_id, "model": model},
+        words = restore_caps(drop_tag_words(words), caption) if words else words_proportional(caption, dur)
+        json.dump({"text": caption, "duration": dur, "words": words, "digest": digest, "voice_id": voice_id, "model": model},
                   open(meta_path, "w"), indent=1, ensure_ascii=False)
         print(f"  -> {mp3} ({dur:.2f}s, {len(words)} words)")
 

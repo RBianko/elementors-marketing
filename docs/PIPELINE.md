@@ -38,7 +38,8 @@ The impact lands right after the last word of the pre-impact VO phrase. Place th
 - `tools/scenario_lint.py` — pre-render estimate: voice length vs action time per beat, first punch second, total length, target and option validity. Opening line may lead in on a hold still; a line may run over the silent beats after it.
 - Shop cards: `offer: {kind, unit, element, stars}` arms `RunState.debug_next_offer` in the game; the next refresh the scenario triggers (a reroll click) places exactly that card in the bonus slot with the reveal FX. The same override sits in the game's debug menu ("Next offer / Arm"). Fallbacks: `save:` with a hand-written save, or a seed search.
 - A/B variants: `scenarios/<name>__<hooktype>.md` with `base: <name>`, same beats, different first line, 0:00 caption and button. `align.py` reads the base render and writes the variant's own `renders/<variant>/plan.json`; `/short` never renders a variant. The lint refuses a variant whose beats drift from the base.
-- After the lint, `/scenario` runs the `shorts-critic` agent (`.claude/agents/shorts-critic.md`): seven PASS/FAIL checks and up to three rewrites, two rounds at most.
+- Voice pass: after the lint, the `streamer-voice` agent (`.claude/agents/streamer-voice.md`) proposes two or three streamer readings per line (repeats, restarts, stops, fillers, chat address, hedged flexes, the autobattler lexicon) with a pick, ElevenLabs tags and caption chunks, inside the beat's time budget; `/scenario` applies the picks. Reference `.claude/skills/scenario/references/voice.md`, evidence `docs/VOICE_REFERENCE_CLIPS.md`. `/scenario voice <name>` reruns only this pass.
+- Then `/scenario` runs the `shorts-critic` agent (`.claude/agents/shorts-critic.md`): seven PASS/FAIL checks and up to three rewrites, two rounds at most.
 
 ### Tools (`/short` skill)
 
@@ -51,7 +52,7 @@ Keyframe frames are clip-relative in Palmier (0 = first frame of the clip). Posi
 
 ### Voiceover
 
-ElevenLabs "Ninja - Engaging Sports Commentator" voice (library voice, paid plan over the API; `liam` is the premade fallback). eleven_v3 reads an all-caps word as an acronym, so `tts.py` sends "THREE" as "Three" and keeps the caps only in the caption words. The script contains an `(impact)` beat, which ElevenLabs renders as a knock. Find it on a spectrogram (broadband transient, no harmonics; local transcription mislabels it as a stretched word) and cut the file into part A (before) and part B (after):
+ElevenLabs "Ninja - Engaging Sports Commentator" voice (library voice, paid plan over the API; `liam` is the premade fallback). eleven_v3 reads an all-caps word as an acronym, so `tts.py` sends "THREE" as "Three" and keeps the caps only in the caption words. v3 audio tags (`[laughs]`, `[happy gasp]`, the list in `voice.md`) go first in a line; `tts.py` sends them to the voice and drops them from the caption words, the lint adds 0.4 s per tag and flags tags outside the list. The script contains an `(impact)` beat, which ElevenLabs renders as a knock. Find it on a spectrogram (broadband transient, no harmonics; local transcription mislabels it as a stretched word) and cut the file into part A (before) and part B (after):
 
 ```
 ffmpeg -i in.mp3 -af "atrim=start=S:end=E,asetpts=PTS-STARTPTS,afade=t=in:d=0.02,afade=t=out:st=(E-S-0.03):d=0.03" out.wav
