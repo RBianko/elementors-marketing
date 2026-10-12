@@ -18,21 +18,22 @@ bench: []
 stash: []
 cursor_start: [760, 500]
 ---
-1. wander 0.7 r12; hover board:2 0.9; idle 0.8 {focus: board} — "Golem boss. He killed me last run."
-2. hover syn:venom 1.5 {focus: tooltip, zoom: 0.7} — "But now I've got venom build."
-3. hover node:%EndRoundButton 0.3 {focus: node:%EndRoundButton, zoom: 1.3, anchor: end} — "Okay. Let's see. Battle."
-4. battle hold=0.4 speed=6 {at: battle_start, lead: 80, zoom: 0.58} — "Come on. Come on... melt."
-5. drift -490,-300; idle 2.4 {at: battle_end, punch, focus: board} — "...wait. That's it?"
+1. wander 0.7 r12; hover board:2 0.9; idle 0.8 {focus: board} — "Golem boss... he killed me last run."
+2. hover syn:venom 1.5 {focus: tooltip, zoom: 0.7} — "Five venom now. Five."
+3. hover node:%EndRoundButton 0.3 {focus: node:%EndRoundButton, zoom: 1.3, anchor: end} — "Send it."
+4. battle hold=0.4 speed=6 {at: battle_start, lead: 80, zoom: 0.58} — "Oh he's melting. Melt. Melt melt melt."
+5. drift -490,-300; idle 2.4 {at: battle_end, punch, focus: board} — "Wait, that's... that's it?"
 6. hover loot:0 0.7; click loot:0; idle 0.5; hover loot:take 0.5; click loot:take {focus: board, zoom: 0.62} — "Bro. This venom build is unreal."
-7. summary hold=3.0 {at: summary, zoom: 0.78} — "Couldn't beat him last run. That was free."
+7. summary hold=3.0 {at: summary, zoom: 0.78} — "[chuckles] Couldn't beat him last run. That was free."
 
 ## Brief
 - Angle: round 10, Golem Boss. The last runs died right here; now the board is plant, reptile, demon, plant, slime, all venom, mostly 2★, and the fight ends before the player finishes worrying.
-- Hook: fail-to-win. "Golem boss. He killed me last run." The stake (a boss that already won once) is out by 2 s, the fight starts by about 8 s.
+- Hook: fail-to-win. "Golem boss... he killed me last run." The stake (a boss that already won once) is out by 2 s, the fight starts by about 8 s.
 - Emotion arc: dread, anticipation, disbelief, smug.
 - Proof frame: beat 5 on `battle_end`, the Boss Loot pick after a speed 6 fight full of poison ticks (a boss win shows the loot before the result overlay). Beat 6 takes Awakening, beat 7 lands the button on the combat summary. Beat 2 is the setup proof: the synergy tags show venom at its top tier (+100% magic DoT taken by enemies).
 - Button: "Couldn't beat him last run. That was free." Callback to the hook; the user's "прошлый раз не проходил, сейчас изи" anchor.
-- Captions: HE KILLED ME · VENOM BUILD · LET'S SEE · MELT · THAT'S IT? · UNREAL · THAT WAS FREE
+- Captions: HE KILLED ME · FIVE VENOM NOW · SEND IT · MELT MELT MELT · THAT'S IT? · UNREAL · THAT WAS FREE
+- Voice: pass applied 2026-10-12. Beat 1 a stop on the boss, beat 2 the count instead of "venom build" (the tutorial line, it also overran the hover), beat 3 "Send it." on the click, beat 4 the chant grows out of the poison ticks, beat 5 a restart on the punch, beat 7 a chuckle before the anchor. Refused: beat 1 "He's killed me twice" (the data backs it, the user said last run), beat 5 "Hello? That's it?" (two questions in a row). Beats 6 and 7 are anchors, words untouched.
 - Alt hook (contrarian): "Chat said venom can't kill a boss." 0:00 caption: CHAT SAID NO. Alt button: "Can't kill a boss, huh."
 - Alt hook (curiosity): "Watch how long this boss lasts." 0:00 caption: WATCH THE BOSS. Alt button: "Last run he lasted longer than me."
 - Camera: wide. The whole scene stays in frame, mirrored dark copies fill the bands above and below; zoom only moves between 0.5 and 0.78.

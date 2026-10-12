@@ -230,7 +230,7 @@
   {
    "beat": 3,
    "path": "/Users/a1/DEV/elementors-marketing/vo/j_venom_golem_boss/beat_3.mp3",
-   "startFrame": 412
+   "startFrame": 465
   },
   {
    "beat": 4,
@@ -255,98 +255,93 @@
  ],
  "captions": [
   {
-   "start": 7,
-   "end": 54,
-   "text": "Golem boss."
+   "start": 0,
+   "end": 94,
+   "text": "Golem boss..."
   },
   {
-   "start": 77,
-   "end": 116,
-   "text": "He killed me"
+   "start": 94,
+   "end": 133,
+   "text": "he killed me"
   },
   {
-   "start": 116,
-   "end": 150,
+   "start": 133,
+   "end": 179,
    "text": "last run."
   },
   {
-   "start": 256,
-   "end": 306,
-   "text": "But now I've"
+   "start": 250,
+   "end": 351,
+   "text": "Five venom now."
   },
   {
-   "start": 306,
-   "end": 366,
-   "text": "got venom build."
+   "start": 351,
+   "end": 386,
+   "text": "Five."
   },
   {
-   "start": 418,
-   "end": 434,
-   "text": "Okay."
+   "start": 465,
+   "end": 509,
+   "text": "Send it."
   },
   {
-   "start": 434,
-   "end": 465,
-   "text": "Let's see."
+   "start": 588,
+   "end": 646,
+   "text": "Oh he's melting."
   },
   {
-   "start": 477,
-   "end": 500,
-   "text": "Battle."
+   "start": 646,
+   "end": 688,
+   "text": "Melt."
   },
   {
-   "start": 594,
-   "end": 617,
-   "text": "Come on."
+   "start": 688,
+   "end": 757,
+   "text": "Melt melt melt."
   },
   {
-   "start": 641,
-   "end": 710,
-   "text": "Come on..."
+   "start": 882,
+   "end": 903,
+   "text": "Wait,"
   },
   {
-   "start": 734,
-   "end": 764,
-   "text": "melt."
+   "start": 903,
+   "end": 980,
+   "text": "that's..."
   },
   {
-   "start": 888,
-   "end": 902,
-   "text": "...wait."
+   "start": 980,
+   "end": 1018,
+   "text": "that's it?"
   },
   {
-   "start": 923,
-   "end": 960,
-   "text": "That's it?"
-  },
-  {
-   "start": 1084,
-   "end": 1119,
+   "start": 1078,
+   "end": 1127,
    "text": "Bro."
   },
   {
-   "start": 1139,
-   "end": 1188,
+   "start": 1137,
+   "end": 1236,
    "text": "This venom build"
   },
   {
-   "start": 1188,
-   "end": 1250,
+   "start": 1236,
+   "end": 1314,
    "text": "is unreal."
   },
   {
-   "start": 1390,
-   "end": 1426,
+   "start": 1406,
+   "end": 1436,
    "text": "Couldn't beat him"
   },
   {
-   "start": 1426,
-   "end": 1466,
+   "start": 1436,
+   "end": 1471,
    "text": "last run."
   },
   {
-   "start": 1480,
-   "end": 1528,
+   "start": 1471,
+   "end": 1520,
    "text": "That was free."
   }
  ],
