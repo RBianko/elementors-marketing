@@ -230,7 +230,7 @@
   {
    "beat": 3,
    "path": "/Users/a1/DEV/elementors-marketing/vo/j_venom_golem_boss/beat_3.mp3",
-   "startFrame": 465
+   "startFrame": 453
   },
   {
    "beat": 4,
@@ -256,92 +256,92 @@
  "captions": [
   {
    "start": 0,
-   "end": 94,
+   "end": 52,
    "text": "Golem boss..."
   },
   {
-   "start": 94,
-   "end": 133,
+   "start": 52,
+   "end": 114,
    "text": "he killed me"
   },
   {
-   "start": 133,
-   "end": 179,
+   "start": 114,
+   "end": 163,
    "text": "last run."
   },
   {
    "start": 250,
-   "end": 351,
+   "end": 340,
    "text": "Five venom now."
   },
   {
-   "start": 351,
-   "end": 386,
+   "start": 340,
+   "end": 377,
    "text": "Five."
   },
   {
-   "start": 465,
+   "start": 453,
    "end": 509,
    "text": "Send it."
   },
   {
    "start": 588,
-   "end": 646,
+   "end": 671,
    "text": "Oh he's melting."
   },
   {
-   "start": 646,
-   "end": 688,
+   "start": 671,
+   "end": 699,
    "text": "Melt."
   },
   {
-   "start": 688,
-   "end": 757,
+   "start": 699,
+   "end": 788,
    "text": "Melt melt melt."
   },
   {
    "start": 882,
-   "end": 903,
+   "end": 910,
    "text": "Wait,"
   },
   {
-   "start": 903,
-   "end": 980,
+   "start": 910,
+   "end": 945,
    "text": "that's..."
   },
   {
-   "start": 980,
-   "end": 1018,
+   "start": 945,
+   "end": 1002,
    "text": "that's it?"
   },
   {
    "start": 1078,
-   "end": 1127,
+   "end": 1102,
    "text": "Bro."
   },
   {
-   "start": 1137,
-   "end": 1236,
+   "start": 1102,
+   "end": 1203,
    "text": "This venom build"
   },
   {
-   "start": 1236,
-   "end": 1314,
+   "start": 1203,
+   "end": 1269,
    "text": "is unreal."
   },
   {
-   "start": 1406,
-   "end": 1436,
+   "start": 1384,
+   "end": 1457,
    "text": "Couldn't beat him"
   },
   {
-   "start": 1436,
-   "end": 1471,
+   "start": 1457,
+   "end": 1495,
    "text": "last run."
   },
   {
-   "start": 1471,
-   "end": 1520,
+   "start": 1495,
+   "end": 1561,
    "text": "That was free."
   }
  ],
