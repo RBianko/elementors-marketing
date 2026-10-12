@@ -1,0 +1,398 @@
+{
+ "name": "j_venom_golem_boss",
+ "base": "j_venom_golem_boss",
+ "source_build": "",
+ "fps": 60,
+ "canvas": [
+  1080,
+  1920
+ ],
+ "video": {
+  "path": "/Users/a1/DEV/elementors-marketing/renders/j_venom_golem_boss/j_venom_golem_boss.mp4",
+  "source": [
+   1.2,
+   27.3
+  ],
+  "startFrame": 0,
+  "trim": 72
+ },
+ "hold": null,
+ "mirror": true,
+ "keyframes": {
+  "scale": [
+   [
+    0,
+    1.58,
+    0.5,
+    "smooth"
+   ],
+   [
+    1,
+    1.58,
+    0.5,
+    "smooth"
+   ],
+   [
+    31,
+    1.58,
+    0.5,
+    "smooth"
+   ],
+   [
+    250,
+    1.58,
+    0.5,
+    "smooth"
+   ],
+   [
+    280,
+    2.212,
+    0.7,
+    "smooth"
+   ],
+   [
+    379,
+    2.212,
+    0.7,
+    "smooth"
+   ],
+   [
+    409,
+    4.109,
+    1.3,
+    "smooth"
+   ],
+   [
+    508,
+    4.109,
+    1.3,
+    "smooth"
+   ],
+   [
+    538,
+    1.833,
+    0.58,
+    "smooth"
+   ],
+   [
+    822,
+    1.833,
+    0.58,
+    "smooth"
+   ],
+   [
+    834,
+    2.054,
+    0.65,
+    "smooth"
+   ],
+   [
+    1078,
+    2.054,
+    0.65,
+    "smooth"
+   ],
+   [
+    1108,
+    1.96,
+    0.62,
+    "smooth"
+   ],
+   [
+    1384,
+    1.96,
+    0.62,
+    "smooth"
+   ],
+   [
+    1414,
+    2.465,
+    0.78,
+    "smooth"
+   ],
+   [
+    1565,
+    2.465,
+    0.78,
+    "smooth"
+   ]
+  ],
+  "position": [
+   [
+    0,
+    -0.2901,
+    0.25,
+    "smooth"
+   ],
+   [
+    1,
+    -0.2901,
+    0.25,
+    "smooth"
+   ],
+   [
+    31,
+    -0.2901,
+    0.25,
+    "smooth"
+   ],
+   [
+    250,
+    -0.2901,
+    0.25,
+    "smooth"
+   ],
+   [
+    280,
+    0.0,
+    0.15,
+    "smooth"
+   ],
+   [
+    379,
+    0.0,
+    0.15,
+    "smooth"
+   ],
+   [
+    409,
+    -3.1086,
+    -0.3,
+    "smooth"
+   ],
+   [
+    508,
+    -3.1086,
+    -0.3,
+    "smooth"
+   ],
+   [
+    538,
+    -0.4165,
+    0.21,
+    "smooth"
+   ],
+   [
+    822,
+    -0.4165,
+    0.21,
+    "smooth"
+   ],
+   [
+    834,
+    -0.5272,
+    0.175,
+    "smooth"
+   ],
+   [
+    1078,
+    -0.5272,
+    0.175,
+    "smooth"
+   ],
+   [
+    1108,
+    -0.4798,
+    0.19,
+    "smooth"
+   ],
+   [
+    1384,
+    -0.4798,
+    0.19,
+    "smooth"
+   ],
+   [
+    1414,
+    -0.6334,
+    0.11,
+    "smooth"
+   ],
+   [
+    1565,
+    -0.6334,
+    0.11,
+    "smooth"
+   ]
+  ]
+ },
+ "vo": [
+  {
+   "beat": 1,
+   "path": "/Users/a1/DEV/elementors-marketing/vo/j_venom_golem_boss/beat_1.mp3",
+   "startFrame": 0
+  },
+  {
+   "beat": 2,
+   "path": "/Users/a1/DEV/elementors-marketing/vo/j_venom_golem_boss/beat_2.mp3",
+   "startFrame": 250
+  },
+  {
+   "beat": 3,
+   "path": "/Users/a1/DEV/elementors-marketing/vo/j_venom_golem_boss/beat_3.mp3",
+   "startFrame": 412
+  },
+  {
+   "beat": 4,
+   "path": "/Users/a1/DEV/elementors-marketing/vo/j_venom_golem_boss/beat_4.mp3",
+   "startFrame": 588
+  },
+  {
+   "beat": 5,
+   "path": "/Users/a1/DEV/elementors-marketing/vo/j_venom_golem_boss/beat_5.mp3",
+   "startFrame": 882
+  },
+  {
+   "beat": 6,
+   "path": "/Users/a1/DEV/elementors-marketing/vo/j_venom_golem_boss/beat_6.mp3",
+   "startFrame": 1078
+  },
+  {
+   "beat": 7,
+   "path": "/Users/a1/DEV/elementors-marketing/vo/j_venom_golem_boss/beat_7.mp3",
+   "startFrame": 1384
+  }
+ ],
+ "captions": [
+  {
+   "start": 7,
+   "end": 54,
+   "text": "Golem boss."
+  },
+  {
+   "start": 77,
+   "end": 116,
+   "text": "He killed me"
+  },
+  {
+   "start": 116,
+   "end": 150,
+   "text": "last run."
+  },
+  {
+   "start": 256,
+   "end": 306,
+   "text": "But now I've"
+  },
+  {
+   "start": 306,
+   "end": 366,
+   "text": "got venom build."
+  },
+  {
+   "start": 418,
+   "end": 434,
+   "text": "Okay."
+  },
+  {
+   "start": 434,
+   "end": 465,
+   "text": "Let's see."
+  },
+  {
+   "start": 477,
+   "end": 500,
+   "text": "Battle."
+  },
+  {
+   "start": 594,
+   "end": 617,
+   "text": "Come on."
+  },
+  {
+   "start": 641,
+   "end": 710,
+   "text": "Come on..."
+  },
+  {
+   "start": 734,
+   "end": 764,
+   "text": "melt."
+  },
+  {
+   "start": 888,
+   "end": 902,
+   "text": "...wait."
+  },
+  {
+   "start": 923,
+   "end": 960,
+   "text": "That's it?"
+  },
+  {
+   "start": 1084,
+   "end": 1119,
+   "text": "Bro."
+  },
+  {
+   "start": 1139,
+   "end": 1188,
+   "text": "This venom build"
+  },
+  {
+   "start": 1188,
+   "end": 1250,
+   "text": "is unreal."
+  },
+  {
+   "start": 1390,
+   "end": 1426,
+   "text": "Couldn't beat him"
+  },
+  {
+   "start": 1426,
+   "end": 1466,
+   "text": "last run."
+  },
+  {
+   "start": 1480,
+   "end": 1528,
+   "text": "That was free."
+  }
+ ],
+ "beats": [
+  {
+   "n": 1,
+   "frame": 0,
+   "punch": false,
+   "at": "beat:1"
+  },
+  {
+   "n": 2,
+   "frame": 250,
+   "punch": false,
+   "at": "beat:2"
+  },
+  {
+   "n": 3,
+   "frame": 379,
+   "punch": false,
+   "at": "beat:3"
+  },
+  {
+   "n": 4,
+   "frame": 508,
+   "punch": false,
+   "at": "battle_start"
+  },
+  {
+   "n": 5,
+   "frame": 822,
+   "punch": true,
+   "at": "battle_end"
+  },
+  {
+   "n": 6,
+   "frame": 1078,
+   "punch": false,
+   "at": "beat:6"
+  },
+  {
+   "n": 7,
+   "frame": 1384,
+   "punch": false,
+   "at": "summary"
+  }
+ ],
+ "totalFrames": 1566
+}

@@ -57,13 +57,31 @@ class Camera:
         self.last = (s, cx, cy)
         vh = self.H / s
         vw = self.cw * (self.H / self.ch) / s
-        cx = min(max(cx, vw / 2), self.W - vw / 2)
-        cy = min(max(cy, vh / 2), self.H - vh / 2)
+        cx = self.W / 2 if vw >= self.W else min(max(cx, vw / 2), self.W - vw / 2)
+        cy = self.H / 2 if vh >= self.H else min(max(cy, vh / 2), self.H - vh / 2)
         self.scale.append([f, round(self.ar * s, 3), round(s, 3), interp])
         self.pos.append([f, round(0.5 - cx / self.W * self.ar * s, 4), round(0.5 - cy / self.H * s, 4), interp])
 
 
 FIGHT_ZOOM = (1.0, 1.6)
+WIDE_ZOOM = 0.5
+WIDE_PUNCH = 0.65
+
+
+# Wide mode frames the whole scene: zoom below 1 leaves bands above and below the
+# render that palmier_build fills with mirrored copies.
+def build_camera_wide(beats, trim, last, cam):
+    def rel(src):
+        return src - trim
+
+    cam.key(0, WIDE_ZOOM, cam.W / 2, cam.H / 2)
+    for b in sorted(beats, key=lambda b: b["frame"]):
+        zoom = b.get("zoom") or (WIDE_PUNCH if b.get("punch") else WIDE_ZOOM)
+        cx, cy = b.get("focus_xy") or (cam.W / 2, cam.H / 2)
+        f = max(rel(b["frame"]), 1)
+        cam.key(f, *cam.last)
+        cam.key(f + (12 if b.get("punch") else 30), zoom, cx, cy)
+    cam.key(rel(last), *cam.last)
 
 
 def fight_keys(cam, fight, start, end, rel):
@@ -218,8 +236,8 @@ def main():
         fb = dict(b)
         fb["frame"] = m["f"]
         explicit_focus = b.get("focus") or str(b["at"]) != f"beat:{b['n']}"
-        if m.get("focus") and explicit_focus:
-            fo = m["focus"]
+        fo = m.get("focus") or (b.get("focus") and (marker_frame(markers, f"beat:{b['n']}") or {}).get("focus"))
+        if fo and explicit_focus:
             fb["focus_rect"] = (fo["x"], fo["y"], fo["w"], fo["h"])
             fb["focus_xy"] = (fo["x"] + fo["w"] / 2, fo["y"] + fo["h"] / 2)
         if b["vo"]:
@@ -269,7 +287,11 @@ def main():
     end_clip = min(clip_len, max(last_vo_end + fps, rel(last_marker) + int(1.5 * fps)))
 
     cam = Camera(W, H, cw, ch)
-    build_camera(frames, markers, beats, trim, trim + end_clip - 1, cam, cur.get("fight", []))
+    wide = sc["meta"].get("camera") == "wide"
+    if wide:
+        build_camera_wide(beats, trim, trim + end_clip - 1, cam)
+    else:
+        build_camera(frames, markers, beats, trim, trim + end_clip - 1, cam, cur.get("fight", []))
 
     captions = []
     for v in vo:
@@ -298,6 +320,7 @@ def main():
         "video": {"path": os.path.join(rdir, f"{base}.mp4"), "source": [round(trim / fps, 4), round((trim + end_clip) / fps, 4)],
                   "startFrame": offset, "trim": trim},
         "hold": hold,
+        "mirror": wide,
         "keyframes": {"scale": cam.scale, "position": cam.pos},
         "vo": [{"beat": v["beat"], "path": v["mp3"], "startFrame": offset + v["start_clip"]} for v in vo],
         "captions": captions,

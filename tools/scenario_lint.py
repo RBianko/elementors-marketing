@@ -35,7 +35,7 @@ MARKER_PREFIX = ("beat:", "drag_start", "drop", "apply", "impact:", "summary:dps
                  "summary:kills:", "summary:unit:")
 REGIONS = {"shop", "board", "synergies", "bench", "stash", "dice", "battle", "roll",
            "gold", "level", "hp", "tooltip"}
-TARGET_RE = re.compile(r"^(board:(\d+|bare|best|any|empty)|bench:\d+|stash:\d+|shop:\d+|recap:\d+|node:%\w+)$")
+TARGET_RE = re.compile(r"^(board:(\d+|bare|best|any|empty)|bench:\d+|stash:\d+|shop:\d+|recap:\d+|loot:(\d+|take)|syn:\w+|node:%\w+)$")
 OPTIONS = {"at", "punch", "focus", "zoom", "align", "lead", "anchor", "n", "actions", "vo"}
 
 

@@ -33,7 +33,7 @@ Frontmatter keys passed through: `seed`, `round` (default 3), `level` (default m
 
 Actions: `wait s`, `idle s`, `wander s rN`, `drift dx,dy`, `hover <target> [hold]`, `click <target>`, `drag <from> -> <to> [hold]`, `battle hold= speed=`, `summary focus=dps:N hold=`. `buy` is the same code as `click`.
 
-Targets: `board:N`, `bench:N`, `stash:N`, `shop:N` (bonus slot is `shop:4`), `recap:N`, `board:bare|best|any|empty`, `node:%RollButton`, `node:%RerollButton`, `node:%LevelUpButton`, `node:%FreezeButton`, `node:%EndRoundButton`. Region names (`shop`, `board`, `synergies`, `bench`, `stash`, `dice`, `battle`, `roll`, `gold`, `level`, `hp`, `tooltip`) work only in `focus:`, never as click targets.
+Targets: `board:N`, `bench:N`, `stash:N`, `shop:N` (bonus slot is `shop:4`), `recap:N`, `syn:<element|type>` (a synergy tag; hovering it opens the ladder tooltip in the left rail), `loot:N` / `loot:take` (boss loot cards and the Take button), `board:bare|best|any|empty`, `node:%RollButton`, `node:%RerollButton`, `node:%LevelUpButton`, `node:%FreezeButton`, `node:%EndRoundButton`. Region names (`shop`, `board`, `synergies`, `bench`, `stash`, `dice`, `battle`, `roll`, `gold`, `level`, `hp`, `tooltip`) work only in `focus:`, never as click targets.
 
 Markers the edit can land on: `warmup`, `beat:N`, `drag_start:<el>`, `drop:<el>`, `apply:<el>`, `impact:<el>`, `star_up` (one per promotion), `cascade_end`, `battle_start`, `battle_end`, `summary`, `summary:focus`, `summary:dps:N`, `summary:kills:N`, `summary:unit:N`, `summary:damage`, `summary:synergies`. No marker fires for a click, a buy, a refused drop or a stash merge; use the default `beat:N` for those.
 
@@ -45,4 +45,5 @@ Markers the edit can land on: `warmup`, `beat:N`, `drag_start:<el>`, `drop:<el>`
 - **`roll: true` is a silent setup roll**: faces land in the stash before the screen exists; with a `stash` key the stash is then replaced. To film a dice throw set `roll: false` and `click node:%RollButton`; that throw is physics, faces are not repeatable.
 - **Real player boards** (`board: supabase`): stages 1-3 only, at most 5 units, mvp types and demo elements only. `stage: [3, 3]` picks rounds 11-15; pin with `pick: <id>` or set `round:` explicitly. A 6-unit board must be hand-written.
 - **Beast/fire has static art only.** Avoid it as the hero unit.
+- **A boss win shows Boss Loot first**: `battle_end` fires on the loot pick, and the result overlay (and `summary`) only comes after `click loot:N; click loot:take`.
 - A fight is ~39 s at speed 1; `speed=4..6` for battle beats. The harness never waits for speech: the beat's actions must last at least as long as the line.

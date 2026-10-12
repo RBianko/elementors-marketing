@@ -49,6 +49,7 @@ A scenario with `base: <other>` in its frontmatter is an A/B variant written by 
 - Voice line length must fit the beat: the harness does not wait for speech. If align.py prints "voice pushed N frames late", add idle time to that beat in the scenario and rerender.
 - Shop cards: `offer: {"kind": "echo_2star", "unit": "reptile", "element": "fire", "stars": 2}` arms the bonus slot; the card appears on the next refresh the scenario triggers (`click node:%RerollButton`), with the reveal FX. A missing `star_up` after the buy means the gold did not cover it or the merge landed on the bench.
 - Real player boards: `board: supabase`, `stage: [2, 3]`, `pick: random|<build id>`, `require_bare: true`, `min_units: 3`, `exclude: [ids]`. The chosen build id lands in cursor.json and plan.json as `source_build`; `SHOT_BUILD=<id>` before shot_movie.sh reproduces it, `SHOT_PICK_SEED=<int>` makes a random pick repeatable only for the same snapshot cache; after a refetch, pin with `SHOT_BUILD`. Snapshots come from `pwn-zz/build/player_snapshots.json` (refresh with `tools/builds_run.sh --refetch` in pwn-zz).
+- `camera: wide` in the frontmatter frames the whole scene (zoom 0.5 by default, `zoom:` per beat in the same units, above 1 is a close-up) and fills the bands above and below with darkened mirrored copies of the render.
 - Battle beats: use PvE rounds (round 8 = Stage 2-3 PvE) until PvP opponents are pinned. A fight is ~39 s at speed 1; set `speed=4..6`.
 - Renders queue on a lock in pwn-zz; two renders never run at once.
 

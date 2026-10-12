@@ -34,7 +34,7 @@ REPO = Path(__file__).resolve().parent.parent
 BEAT_RE = re.compile(r"^\s*(\d+)\.\s*(.*?)\s*$")
 VO_RE = re.compile(r"\s(?:—|--)\s*[\"“](.*)[\"”]\s*$")
 OPTS_RE = re.compile(r"\{([^}]*)\}")
-EDIT_KEYS = {"name", "voice", "vo", "music", "model", "base", "hook", "angle", "mood", "promise", "button", "render"}
+EDIT_KEYS = {"name", "voice", "vo", "music", "model", "base", "hook", "angle", "mood", "promise", "button", "render", "camera"}
 
 
 def parse_value(v):
