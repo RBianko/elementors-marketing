@@ -21,7 +21,7 @@ cursor_start: [760, 500]
 1. wander 0.7 r12; hover board:2 0.9; idle 0.8 {focus: board} — "Golem boss... he killed me last run."
 2. hover syn:venom 1.5 {focus: tooltip, zoom: 0.7} — "Five venom now. Five."
 3. hover node:%EndRoundButton 0.3 {focus: node:%EndRoundButton, zoom: 1.3, anchor: end} — "Send it."
-4. battle hold=0.4 speed=6 {at: battle_start, lead: 80, zoom: 0.58} — "Oh he's melting. Melt. Melt melt melt."
+4. battle hold=0.4 speed=2 {at: battle_start, lead: 107, zoom: 0.58} — "Oh he's melting. Melt. Melt melt melt."
 5. drift -490,-300; idle 2.4 {at: battle_end, punch, focus: board} — "Wait, that's... that's it?"
 6. hover loot:0 0.7; click loot:0; idle 0.5; hover loot:take 0.5; click loot:take {focus: board, zoom: 0.62} — "Bro. This venom build is unreal."
 7. summary hold=3.0 {at: summary, zoom: 0.78} — "[chuckles] Couldn't beat him last run. That was free."

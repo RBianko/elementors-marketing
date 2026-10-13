@@ -11,13 +11,13 @@
   "path": "/Users/a1/DEV/elementors-marketing/renders/j_venom_golem_boss/j_venom_golem_boss.mp4",
   "source": [
    1.2,
-   27.3
+   37.7833
   ],
   "startFrame": 0,
   "trim": 72
  },
  "hold": null,
- "mirror": true,
+ "backdrop": true,
  "keyframes": {
   "scale": [
    [
@@ -75,43 +75,43 @@
     "smooth"
    ],
    [
-    822,
+    1449,
     1.833,
     0.58,
     "smooth"
    ],
    [
-    834,
+    1461,
     2.054,
     0.65,
     "smooth"
    ],
    [
-    1078,
+    1707,
     2.054,
     0.65,
     "smooth"
    ],
    [
-    1108,
+    1737,
     1.96,
     0.62,
     "smooth"
    ],
    [
-    1384,
+    2013,
     1.96,
     0.62,
     "smooth"
    ],
    [
-    1414,
+    2043,
     2.465,
     0.78,
     "smooth"
    ],
    [
-    1565,
+    2194,
     2.465,
     0.78,
     "smooth"
@@ -173,43 +173,43 @@
     "smooth"
    ],
    [
-    822,
+    1449,
     -0.4165,
     0.21,
     "smooth"
    ],
    [
-    834,
+    1461,
     -0.5272,
     0.175,
     "smooth"
    ],
    [
-    1078,
+    1707,
     -0.5272,
     0.175,
     "smooth"
    ],
    [
-    1108,
+    1737,
     -0.4798,
     0.19,
     "smooth"
    ],
    [
-    1384,
+    2013,
     -0.4798,
     0.19,
     "smooth"
    ],
    [
-    1414,
+    2043,
     -0.6334,
     0.11,
     "smooth"
    ],
    [
-    1565,
+    2194,
     -0.6334,
     0.11,
     "smooth"
@@ -235,22 +235,22 @@
   {
    "beat": 4,
    "path": "/Users/a1/DEV/elementors-marketing/vo/j_venom_golem_boss/beat_4.mp3",
-   "startFrame": 588
+   "startFrame": 615
   },
   {
    "beat": 5,
    "path": "/Users/a1/DEV/elementors-marketing/vo/j_venom_golem_boss/beat_5.mp3",
-   "startFrame": 882
+   "startFrame": 1509
   },
   {
    "beat": 6,
    "path": "/Users/a1/DEV/elementors-marketing/vo/j_venom_golem_boss/beat_6.mp3",
-   "startFrame": 1078
+   "startFrame": 1707
   },
   {
    "beat": 7,
    "path": "/Users/a1/DEV/elementors-marketing/vo/j_venom_golem_boss/beat_7.mp3",
-   "startFrame": 1384
+   "startFrame": 2013
   }
  ],
  "captions": [
@@ -285,63 +285,63 @@
    "text": "Send it."
   },
   {
-   "start": 588,
-   "end": 671,
+   "start": 615,
+   "end": 698,
    "text": "Oh he's melting."
   },
   {
-   "start": 671,
-   "end": 699,
+   "start": 698,
+   "end": 726,
    "text": "Melt."
   },
   {
-   "start": 699,
-   "end": 788,
+   "start": 726,
+   "end": 815,
    "text": "Melt melt melt."
   },
   {
-   "start": 882,
-   "end": 910,
+   "start": 1509,
+   "end": 1537,
    "text": "Wait,"
   },
   {
-   "start": 910,
-   "end": 945,
+   "start": 1537,
+   "end": 1572,
    "text": "that's..."
   },
   {
-   "start": 945,
-   "end": 1002,
+   "start": 1572,
+   "end": 1629,
    "text": "that's it?"
   },
   {
-   "start": 1078,
-   "end": 1102,
+   "start": 1707,
+   "end": 1731,
    "text": "Bro."
   },
   {
-   "start": 1102,
-   "end": 1203,
+   "start": 1731,
+   "end": 1832,
    "text": "This venom build"
   },
   {
-   "start": 1203,
-   "end": 1269,
+   "start": 1832,
+   "end": 1898,
    "text": "is unreal."
   },
   {
-   "start": 1384,
-   "end": 1457,
+   "start": 2013,
+   "end": 2086,
    "text": "Couldn't beat him"
   },
   {
-   "start": 1457,
-   "end": 1495,
+   "start": 2086,
+   "end": 2124,
    "text": "last run."
   },
   {
-   "start": 1495,
-   "end": 1561,
+   "start": 2124,
+   "end": 2190,
    "text": "That was free."
   }
  ],
@@ -372,22 +372,22 @@
   },
   {
    "n": 5,
-   "frame": 822,
+   "frame": 1449,
    "punch": true,
    "at": "battle_end"
   },
   {
    "n": 6,
-   "frame": 1078,
+   "frame": 1707,
    "punch": false,
    "at": "beat:6"
   },
   {
    "n": 7,
-   "frame": 1384,
+   "frame": 2013,
    "punch": false,
    "at": "summary"
   }
  ],
- "totalFrames": 1566
+ "totalFrames": 2195
 }
