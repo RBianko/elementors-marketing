@@ -100,19 +100,15 @@ def main():
     p.call("set_keyframes", clipId=vclip, property="scale", keyframes=plan["keyframes"]["scale"])
     p.call("set_keyframes", clipId=vclip, property="position", keyframes=plan["keyframes"]["position"])
 
-    if plan.get("mirror"):
-        heights = {k[0]: k[2] for k in plan["keyframes"]["scale"]}
-        mirrors = []
-        for side in (-1, 1):
-            m = p.call("add_clips", entries=[{"mediaRef": video, "startFrame": plan["video"]["startFrame"], "source": plan["video"]["source"],
-                                              "includeAudio": False}])["clips"][0]["id"]
-            pos = [[k[0], k[1], round(k[2] + side * heights[k[0]], 4), k[3]] for k in plan["keyframes"]["position"]]
-            p.call("set_keyframes", clipId=m, property="scale", keyframes=plan["keyframes"]["scale"])
-            p.call("set_keyframes", clipId=m, property="position", keyframes=pos)
-            mirrors.append(m)
-        p.call("set_clip_properties", clipIds=mirrors, transform={"flipVertical": True}, volumeDb=-60)
-        p.call("apply_color", clipIds=mirrors, exposure=-1.6, saturation=0.6)
-        p.call("apply_effect", clipIds=mirrors, effects=[{"type": "blur.gaussian", "params": {"radius": 6}}])
+    if plan.get("backdrop"):
+        ar = plan["keyframes"]["scale"][0][1] / plan["keyframes"]["scale"][0][2]
+        b = p.call("add_clips", entries=[{"mediaRef": video, "startFrame": plan["video"]["startFrame"], "source": plan["video"]["source"],
+                                          "includeAudio": False}])["clips"][0]["id"]
+        p.call("set_keyframes", clipId=b, property="scale", keyframes=[[0, round(ar, 3), 1, "linear"]])
+        p.call("set_keyframes", clipId=b, property="position", keyframes=[[0, round(0.5 - ar / 2, 4), 0, "linear"]])
+        p.call("set_clip_properties", clipIds=[b], volumeDb=-60)
+        p.call("apply_color", clipIds=[b], exposure=-0.8, saturation=0.8)
+        p.call("apply_effect", clipIds=[b], effects=[{"type": "blur.gaussian", "params": {"radius": 40}}])
         main_track = next(t["trackId"] for t in p.call("get_timeline")["tracks"] if any(c.get("id") == vclip for c in t.get("clips", [])))
         p.call("manage_tracks", reorder=[{"trackId": main_track, "to": 0}])
 
@@ -138,7 +134,7 @@ def main():
     vi, ai = 0, 0
     for t in tracks:
         if t["type"] == "video":
-            names.append({"trackId": t["trackId"], "name": ["Captions", "Gameplay", "Mirror"][min(vi, 2)] if plan["captions"] else "Gameplay"})
+            names.append({"trackId": t["trackId"], "name": ["Captions", "Gameplay", "Backdrop"][min(vi, 2)] if plan["captions"] else "Gameplay"})
             vi += 1
         else:
             names.append({"trackId": t["trackId"], "name": ["Game", "VO"][min(ai, 1)]})

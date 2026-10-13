@@ -69,7 +69,7 @@ WIDE_PUNCH = 0.65
 
 
 # Wide mode frames the whole scene: zoom below 1 leaves bands above and below the
-# render that palmier_build fills with mirrored copies.
+# render that palmier_build fills with a blurred full-height copy.
 def build_camera_wide(beats, trim, last, cam):
     def rel(src):
         return src - trim
@@ -320,7 +320,7 @@ def main():
         "video": {"path": os.path.join(rdir, f"{base}.mp4"), "source": [round(trim / fps, 4), round((trim + end_clip) / fps, 4)],
                   "startFrame": offset, "trim": trim},
         "hold": hold,
-        "mirror": wide,
+        "backdrop": wide,
         "keyframes": {"scale": cam.scale, "position": cam.pos},
         "vo": [{"beat": v["beat"], "path": v["mp3"], "startFrame": offset + v["start_clip"]} for v in vo],
         "captions": captions,
