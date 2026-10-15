@@ -29,9 +29,9 @@ Screen events worth a punch: element impact (apply + suction, 0.48 s after the d
 
 ## What the harness films (`tests/shot_movie.gd`)
 
-Frontmatter keys passed through: `seed`, `round` (default 3), `level` (default max(3, board size)), `gold` (10), `dice` (fire/ice/wind), `roll` (true), `board`, `bench`, `stash`, `offer`, `cursor_start`, `settle_s`, `save`, and the player-pool keys `pick`, `stage`, `exclude`, `min_units`, `require_bare`.
+Frontmatter keys passed through: `seed`, `round` (default 3), `level` (default max(3, board size)), `gold` (10), `dice` (fire/ice/wind), `roll` (true), `board`, `bench`, `stash`, `offer`, `opponent`, `unlock_toasts` (false), `cursor_start`, `settle_s`, `save`, and the player-pool keys `pick`, `stage`, `exclude`, `min_units`, `require_bare`.
 
-Actions: `wait s`, `idle s`, `wander s rN`, `drift dx,dy`, `hover <target> [hold]`, `click <target>`, `drag <from> -> <to> [hold]`, `battle hold= speed= open=`, `summary focus=dps:N hold=`. `buy` is the same code as `click`.
+Actions: `wait s`, `idle s`, `wander s rN`, `drift dx,dy`, `hover <target> [hold]`, `click <target>`, `drag <from> -> <to> [hold]`, `battle hold= speed= open= roam=`, `summary focus=dps:N hold=`. `buy` is the same code as `click`.
 
 Targets: `board:N`, `bench:N`, `stash:N`, `shop:N` (bonus slot is `shop:4`), `recap:N`, `syn:<element|type>` (a synergy tag; hovering it opens the ladder tooltip in the left rail), `loot:N` / `loot:take` (boss loot cards and the Take button), `board:bare|best|any|empty`, `node:%RollButton`, `node:%RerollButton`, `node:%LevelUpButton`, `node:%FreezeButton`, `node:%EndRoundButton`. Region names (`shop`, `board`, `synergies`, `bench`, `stash`, `dice`, `battle`, `roll`, `gold`, `level`, `hp`, `tooltip`) work only in `focus:`, never as click targets.
 
@@ -45,6 +45,9 @@ Markers the edit can land on: `warmup`, `beat:N`, `drag_start:<el>`, `drop:<el>`
 - **The reveal FX only plays on a refresh after mount.** A card already in the shop at setup shows the stamp but no rainbow burst. For the "YESSS" moment, the reroll click is the shot.
 - **Buying lands on the bench**, never straight on the board (no right-click). A merge on buy still happens, with `star_up` markers, even with a full bench.
 - **`roll: true` is a silent setup roll**: faces land in the stash before the screen exists; with a `stash` key the stash is then replaced. To film a dice throw set `roll: false` and `click node:%RollButton`; that throw is physics, faces are not repeatable.
+- **A real PvP opponent** (`opponent: <snapshot id>` on a PvP round): the sandbox pool is empty and the round would fight a mirror of our board. The harness makes that one snapshot the round's pool and preloads its Steam portrait. Ids come from `pwn-zz/build/pvp_portraits.json` (demo snapshots with `author_portrait`, rounds 11, 12, 14; refetch from the `snapshots` table with `doc->>author_portrait=neq.`). Pick a board the scenario's team beats: a draw or a loss kills the payoff.
+- **Bestiary unlock toasts are off** by default; `unlock_toasts: true` when the toast is the moment.
+- **The cursor roams during a fight** (`roam=false` on `battle` stops it): it drifts over the field and points at units, which opens their tooltips on the left.
 - **Real player boards** (`board: supabase`): stages 1-3 only, at most 5 units, mvp types and demo elements only. `stage: [3, 3]` picks rounds 11-15; pin with `pick: <id>` or set `round:` explicitly. A 6-unit board must be hand-written.
 - **Beast/fire has static art only.** Avoid it as the hero unit.
 - **Setup units merge like bought ones.** Three identical bare units of one star in `board:`/`bench:` collapse into the next star while the harness places them (the log says "field cap refused board:N, forcing it"), and a 1★ element is then refused on the 2★ body. A row of six "the same unit" needs six types or mixed stars; e_six_reptiles_six_elements lost its first render to this on 2026-10-14.
