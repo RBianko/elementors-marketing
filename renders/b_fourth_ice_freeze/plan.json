@@ -2268,7 +2268,7 @@
   {
    "beat": 5,
    "path": "/Users/a1/DEV/elementors-marketing/vo/b_fourth_ice_freeze/beat_5.mp3",
-   "startFrame": 1096
+   "startFrame": 1051
   },
   {
    "beat": 6,
@@ -2338,28 +2338,28 @@
    "text": "Send it."
   },
   {
-   "start": 1132,
-   "end": 1191,
+   "start": 1087,
+   "end": 1146,
    "text": "Wait..."
   },
   {
-   "start": 1191,
-   "end": 1222,
+   "start": 1146,
+   "end": 1177,
    "text": "frozen."
   },
   {
-   "start": 1223,
-   "end": 1299,
+   "start": 1178,
+   "end": 1254,
    "text": "They're all frozen."
   },
   {
-   "start": 1301,
-   "end": 1347,
+   "start": 1256,
+   "end": 1302,
    "text": "Go go go"
   },
   {
-   "start": 1349,
-   "end": 1380,
+   "start": 1304,
+   "end": 1335,
    "text": "go."
   },
   {

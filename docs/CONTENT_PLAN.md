@@ -12,7 +12,7 @@ Every rendered moment ships as two cuts: the streamer-voice cut and a silent tex
 |---|---|---|---|---|---|
 | 1 | e | Six creatures, six elements | one render, six drags; silent cut first | cut | `scenarios/e_six_reptiles_six_elements.md`, 2026-10-14; timelines `e_six_reptiles_six_elements 9x16 v3` (voiced, Liam placeholder until the Ninja track is hand-made) and `... silent A 9x16`; material for k |
 | 2 | c | 1→2→3★ cascade | one render, seed 34, three rerolls, bare reptile bought, fire applied on the board | cut | `scenarios/c_one_buy_three_star.md`, 2026-10-15; timelines `c_one_buy_three_star 9x16` (voiced, hand-recorded Lewis Moore read) and `... silent 9x16` (captions only, music still to lay); 30.5 s after the pace pass; material for k |
-| 3 | b | Fourth ice, everyone frozen | one render, fight at game speed | cut | `scenarios/b_fourth_ice_freeze.md`, 2026-10-15; timeline `b_fourth_ice_freeze 9x16` (voiced, Liam placeholder until a hand read), 36.5 s; silent cut still to make; material for k |
+| 3 | b | Fourth ice, everyone frozen | one render, fight at game speed | cut | `scenarios/b_fourth_ice_freeze.md`, 2026-10-15; timeline `b_fourth_ice_freeze 9x16` (voiced, Liam placeholder until a hand read) and `... silent 9x16` (captions only, music still to lay), 36.5 s; fight at game speed; material for k |
 | 4 | l | Dice decide | one render, `roll: false`, live throw | todo | faces are physics, not repeatable |
 | 5 | m | Round 1 vs round 15 | two renders, hard cut in the edit | todo | |
 | 6 | k | Fifteen seconds of Elementors | edit from 1-3, one spoken line | todo | after 1-3 are rendered |
