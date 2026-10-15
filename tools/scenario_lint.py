@@ -29,9 +29,13 @@ REACTION_DELAY = 1.0
 TOTAL_MIN, TOTAL_MAX = 10.0, 32.0
 MAX_WORDS_PER_LINE = 16
 TAG_SEC = 0.4
-MAX_TAGS = 2
+MAX_TAGS = 4
 TAGS = {"laughs", "chuckles", "sighs", "exhales", "exhales sharply", "whispers", "excited", "surprised",
-        "happy gasp", "short pause", "nervously", "sarcastic", "deadpan"}
+        "happy gasp", "short pause", "nervously", "sarcastic", "deadpan",
+        "weak", "angry", "bored", "menacing", "playful", "tired",
+        "clears throat", "coughing", "chuckling", "sighing", "sniffling", "yawning", "laughing", "sharp exhale",
+        "scoffing", "humming", "panting", "gasping",
+        "whispering", "singing", "slowly", "softly", "pause", "voice breaking"}
 AD_WORDS = {"amazing", "epic", "awesome", "incredible", "satisfying", "stunning", "powerful", "unleash",
             "experience", "strategy", "ultimate", "download", "subscribe"}
 TAG_RE = re.compile(r"\[([a-z][a-z ]*)\]")
@@ -139,7 +143,7 @@ def lint(path):
                 problems.append(f"beat {n}: bad focus {f}")
         t += secs
     if tag_total > MAX_TAGS:
-        problems.append(f"{tag_total} audio tags; two per short at most, the words carry the emotion")
+        problems.append(f"{tag_total} audio tags; four per short at most, the words carry the emotion")
     if first_punch is None:
         problems.append("no punch beat: the short has no impact moment")
     elif first_punch > PUNCH_DEADLINE:

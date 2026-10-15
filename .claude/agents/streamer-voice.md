@@ -19,7 +19,7 @@ Per line, in beat order:
 
 Then check the picks as a whole against the budgets in `voice.md`: at least three lines with a device, at most two clean full sentences, no two neighbouring lines on the same device, one repeat x2 and one stack or chant, one restart at most, "chat" once, "man" or "bro" twice at most, fillers 2-4, the game name once at most, no CTA, no ad word, no brainrot, no other game's lingo, no swearing beyond the allowed list, numbers as words. Read the picks in a row in your head: one person, one run, 15-25 s.
 
-Delivery: propose an ElevenLabs tag only where the words cannot carry it (a laugh on the button, a gasp on a reaction), from the list in `voice.md`, lowercase, first in the line, one per line, two per short, never on line 1. Ellipsis for a stop, comma for a restart, "!" for a shout, stretched spelling for a held vowel; caps only on the word the caption should highlight. No dashes, no braces.
+Delivery: propose ElevenLabs tags generously, from the list in `voice.md` (emotion, vocalizations, delivery; never the character voices or sound effects): a laugh or scoff on the button, a gasp or sharp exhale on a reaction, a whisper on a plead, a sigh on a miss. Lowercase, first in the line or mid-line before the words it colours, one per line, two to four per short, never on line 1. Ellipsis for a stop, comma for a restart, "!" for a shout, stretched spelling for a held vowel; caps only on the word the caption should highlight. No dashes, no braces.
 
 Captions: show how `align.py` chunks each pick (3 words, cut at `. , ? !`); when a chunk reads wrong, repunctuate the pick.
 

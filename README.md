@@ -16,6 +16,8 @@ Short-form video pipeline for Elementors. A short is written as a markdown scena
 | `.claude/skills/short/` | The `/short` skill: scenario → rendered, voiced, assembled short |
 | `.claude/agents/shorts-critic.md` | The critic `/scenario` runs after the lint |
 | `docs/SHORTS_RESEARCH.md` | Sources behind the hook, structure and voice rules |
+| `docs/SCENARIO_BACKLOG.md` | Ranked list of shorts to make next, with the TikTok data behind each pick |
+| `docs/CONTENT_PLAN.md` | Wave-by-wave production plan with per-cut status and a results log |
 | `voices.json` | ElevenLabs voice cache, maintained by `tts.py` |
 
 Media, renders, voice files and Palmier media caches are not committed.

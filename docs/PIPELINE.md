@@ -10,6 +10,19 @@ How a 9:16 short is produced from a written scenario. Two halves, two repos.
   SHOT_MOVIE_ROOT=/Users/a1/DEV/elementors-marketing/renders tools/shot_movie.sh <scenario>
   ```
 - Renders through Godot `--write-movie --fixed-fps 60`, deterministic. Viewport 1280x720, nearest-upscaled 3x to 3840x2160, H.264 CRF 10 + AAC.
+- Run renders under `caffeinate -dimsu` (before `tools/shot_movie.sh`): a render that ran while the Mac slept came out with 5194 frozen frames (2026-10-15).
+- A regular shop card (not the bonus slot) cannot be armed; find a seed instead. `tools/shop_scan.gd` replays the harness setup per seed and prints the setup shop and each reroll, matching the render (checked on seeds 29 and 34):
+
+  ```
+  cd /Users/a1/DEV/pwn-zz && SCAN_FROM=1 SCAN_TO=500 SCAN_ROUND=9 SCAN_LEVEL=8 SCAN_REROLLS=3 \
+    /Applications/Godot.app/Contents/MacOS/Godot --headless --path . -s /Users/a1/DEV/elementors-marketing/tools/shop_scan.gd
+  ```
+
+  The shop depends only on seed, round, level and the reroll count, not on the board. Check the setup shop (`s0`) too: it is rolled before the level is raised and may carry a bonus card.
+- The merge result lands on the unit the element was applied to, so the apply target decides where a cascade ends (bench or board).
+- After a merge under a parked cursor the tooltip does not open: move the cursor off and back (`drift`, then `hover`).
+- The focus rect of a beat is written into its `beat:N` marker at render time; a `focus:` change needs a rerender, a `zoom:` or `align:` change does not.
+- A render whose window stops redrawing (occluded, another Godot run on the machine) keeps writing PNGs while `Engine.get_frames_drawn()` stands still: the cursor track repeats one `f` for hundreds of entries, the mp4 holds a frozen frame for seconds and every marker after the stall is off by that many frames. Check `len(frames) == max(f) + 1` in the cursor json before aligning; if not, rerender (c_one_buy_three_star, 2026-10-14: 631 copies of frame 791, clean on the second run).
 - Warm-up: every element's ImpactFx/ElementFx plays under a black matte before the `warmup` marker. Everything before that marker is discarded in the edit.
 - Fake cursor drives the real drag-and-drop: Bezier path, overshoot and settle, sub-pixel jitter, hover before pick-up and drop, wander/drift after the impact. DEBUG button hidden. Injected mouse events carry device id 77; every other mouse event (the OS mouse crossing the render window) is marked handled before the GUI sees it, so moving the real mouse during a render no longer turns cards or swaps hover. Code that polls the cursor (shop card turn, drag card, drag trail, floating tooltip, forest parallax, round gold drift, scout card) reads it through `ui/components/pointer.gd` in pwn-zz: `Viewport.get_mouse_position()` returns the OS cursor and ignores injected motion, so without the seam a hovered shop card froze at its first-hover tilt. The harness sets `Pointer.override` every frame.
 - Output per scenario in `renders/<scenario>/`:
@@ -26,6 +39,8 @@ How a 9:16 short is produced from a written scenario. Two halves, two repos.
 - Editor: Palmier Pro via MCP (`palmier-pro`, http://127.0.0.1:19789/mcp). The app must be running before the Claude session starts, otherwise `/mcp` reconnect.
 - Project: `palmier/ELEMS.palmier`, 60 fps. One timeline per short, 1080x1920. Media referenced by absolute path, so moving files breaks links.
 - Tracks: Text (captions) on top, Gameplay, VO, Game (linked game audio).
+- When the `palmier-pro` MCP server did not connect in the session, `tools/palmier_build.py`'s `Palmier` class drives the same endpoint over HTTP from a script (`p.call(tool, **args)`, raw images from `inspect_timeline` through `p._post`), so verification and small fixes do not need `/mcp`.
+- Silent cut: `create_timeline` with `from` set to the voiced timeline and the name `<name> silent 9x16`, `manage_tracks` remove the VO track, `remove_clips` on every text clip, `add_texts` with the brief's silent captions on the marker frames (style, highlight and y from `palmier_build.py`), `manage_tracks` set the caption track's name back to Captions. The copy keeps the gameplay clip, its keyframes and the linked game audio.
 
 ### Timing rule
 
@@ -72,4 +87,4 @@ TikTok style: Poppins-Bold, 60 pt, uppercase, white, black outline 8, soft shado
 
 ## Scenario ideas
 
-a early fire on reptile (done, two cuts) · b synergy tier pop · c 1->2->3 star cascade · d wrong element then right one · e one reptile, all 13 elements, for a music-only cut · f battle recap number · g real player board · h lucky roll into 3★ via `offer:` and a reroll · combat before/after · "pick the element" poll format.
+The ranked backlog with the evidence behind it is `docs/SCENARIO_BACKLOG.md`. The original list: a early fire on reptile (done, two cuts) · b synergy tier pop · c 1->2->3 star cascade · d wrong element then right one · e one reptile, all 13 elements, for a music-only cut · f battle recap number · g real player board · h lucky roll into 3★ via `offer:` and a reroll · combat before/after · "pick the element" poll format.

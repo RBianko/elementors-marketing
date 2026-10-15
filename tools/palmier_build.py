@@ -94,6 +94,8 @@ def main():
 
     folder = f"shorts/{plan['name']}"
     video = p.call("import_media", source={"path": plan["video"]["path"]}, folder=folder, name=f"{plan['name']} render")["mediaRef"]
+    p.call("organize_media", moves=[{"into": folder, "items": [tl["timelineId"]]}])
+    p.call("set_active_timeline", timelineId=tl["timelineId"])
     clips = p.call("add_clips", entries=[{"mediaRef": video, "startFrame": plan["video"]["startFrame"], "source": plan["video"]["source"]}])
     vclip = clips["clips"][0]["id"]
     p.call("set_project_settings", aspectRatio=f"{cw}:{ch}" if (cw, ch) != (1080, 1920) else "9:16", quality="1080p")
