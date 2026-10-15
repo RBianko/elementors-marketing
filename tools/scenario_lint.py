@@ -89,6 +89,7 @@ def lint(path):
     t = 0.0
     first_punch = None
     tag_total = 0
+    marks = {a["name"] for b in beats for a in b["actions"] if a["do"] == "mark" and "name" in a}
     for i, b in enumerate(beats):
         n = b["n"]
         secs = sum(action_seconds(a) for a in b["actions"])
@@ -125,7 +126,7 @@ def lint(path):
             ad = sorted({w for w in re.findall(r"[a-z]+", b["vo"].lower()) if w in AD_WORDS})
             if ad:
                 problems.append(f"beat {n}: ad word {', '.join(ad)}; say what the player would blurt")
-        if not marker_ok(str(b["at"])):
+        if not marker_ok(str(b["at"])) and str(b["at"]) not in marks:
             problems.append(f"beat {n}: unknown marker at: {b['at']}")
         for a in b["actions"]:
             for key in ("target", "from", "to"):
