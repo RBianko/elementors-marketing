@@ -29,8 +29,8 @@ How a 9:16 short is produced from a written scenario. Two halves, two repos.
   - `<scenario>.mp4`
   - `<scenario>.cursor.json`: `{fps, width, height, scale, frames:[{f,x,y,down}], markers:[{f,name}]}` in output pixels.
   - `frames/`: raw 1280x720 PNGs + `frame.wav`.
-- Marker names: `warmup`, `beat:N` (one per scenario beat, from `mark` actions), `drag_start:<element>`, `drop:<element>`, `apply:<element>`, `impact:<element>` (apply + suction, the big beat), `star_up`, `cascade_end`, `battle_start`, `battle_end`, `summary`, `summary:damage`, `summary:synergies`, `summary:unit:N`, `summary:dps:N`, `summary:kills:N`, `summary:focus`. Every marker except `warmup` carries `focus: {x, y, w, h}` in output pixels.
-- Actions: `wander`, `hover`, `click`, `drag`, `wait`, `idle`, `drift`, `mark`, `battle` (clicks BATTLE for real, `speed` sets the fight's time scale), `summary` (opens the recap, marks every row).
+- Marker names: `warmup`, `beat:N` (one per scenario beat, from `mark` actions), `drag_start:<element>`, `drop:<element>`, `apply:<element>`, `impact:<element>` (apply + suction, the big beat), `star_up`, `cascade_end`, `battle_start`, `battle_open_end`, `battle_end`, `summary`, `summary:damage`, `summary:synergies`, `summary:unit:N`, `summary:dps:N`, `summary:kills:N`, `summary:focus`. Every marker except `warmup` carries `focus: {x, y, w, h}` in output pixels.
+- Actions: `wander`, `hover`, `click`, `drag`, `wait`, `idle`, `drift`, `mark`, `battle` (clicks BATTLE for real, `speed` sets the fight's time scale, `open=N` keeps the first N s at speed 1), `summary` (opens the recap, marks every row).
 - Shop card override: `"offer": {"kind": "echo_2star", "unit": "reptile", "element": "fire", "stars": 2}` → `RunState.debug_next_offer`, consumed by the next refresh.
 - Real player boards: `"board": "supabase"` with `stage`, `pick`, `require_bare`, `min_units`, `exclude`; snapshots cached in `pwn-zz/build/player_snapshots.json` (5016 demo boards, stages 1–3, refetched 2026-10-11). `SHOT_BUILD=<id>` reproduces a short; `source_build` is written into cursor.json.
 

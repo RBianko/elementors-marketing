@@ -16,7 +16,7 @@ Source of truth is the game repo `/Users/a1/DEV/pwn-zz` (`documentation.md`, `da
 | level | LEVEL UP button, 4g for 4 XP. Shop slots: 2 at levels 1-3, 3 at 4-7, 4 at 8-9, plus one trailing bonus slot (index 4). Field cap: 1,2,3,4,4,5,5,6,6. |
 | gold | +5 per round start, +1 win, streak 1/2/3 at 2/4/6 wins, interest 1 per 10 capped at 5. Sell refunds half of cost x 3^(star-1). |
 | lucky roll | the special offer in the shop bonus slot. 12% per refill from round 1, 18% from round 5, 20% from round 11; pity forces one after 5 dry rounds. Kinds: `elem_1star` (rounds 1-4, elemented 1★), `echo_1star` ("COPY!"), `echo_2star` (copy of a 2★ you own, "COPY!", merges to 3★ on buy), `two_star_bare` ("TWO STAR!"), `tier_jump` ("RARE TIER!"). Reveal plays the `lucky_roll` sound and rainbow bursts; `echo_2star` and `tier_jump` also flash the screen edges rainbow and shake. |
-| synergy | each board unit adds 1 to its type and 1 to its element (bare adds nothing to element). Thresholds 2/3/4 on both ladders. Tags above the backpack, gold/silver/bronze by rank. Fire 4: burn stacks every second. Ice 4: freeze all enemies 2 s at start. Light 3: revive once. |
+| synergy | each board unit adds 1 to its type and 1 to its element (bare adds nothing to element). Thresholds 2/3/4 on both ladders. Tags above the backpack, gold/silver/bronze by rank. Fire 4: burn stacks every second. Ice 4: freeze all enemies 3 s at start. Light 3: revive once. |
 | round / stage | 15 rounds, 5 per stage. Label "Stage 3-3" = round 13. Round 8 = Stage 2-3. |
 | late game | rounds 13-15 (Stage 3-3 .. 3-5), Bandit creeps and the Bandit Boss at 15. Mid game is 6-10, early is 1-5. |
 | boss | rounds 5 (Goblin Boss), 10 (Golem Boss), 15 (Bandit Boss). Winning 5 or 10 offers a pick of 3 items. |
@@ -31,11 +31,11 @@ Screen events worth a punch: element impact (apply + suction, 0.48 s after the d
 
 Frontmatter keys passed through: `seed`, `round` (default 3), `level` (default max(3, board size)), `gold` (10), `dice` (fire/ice/wind), `roll` (true), `board`, `bench`, `stash`, `offer`, `cursor_start`, `settle_s`, `save`, and the player-pool keys `pick`, `stage`, `exclude`, `min_units`, `require_bare`.
 
-Actions: `wait s`, `idle s`, `wander s rN`, `drift dx,dy`, `hover <target> [hold]`, `click <target>`, `drag <from> -> <to> [hold]`, `battle hold= speed=`, `summary focus=dps:N hold=`. `buy` is the same code as `click`.
+Actions: `wait s`, `idle s`, `wander s rN`, `drift dx,dy`, `hover <target> [hold]`, `click <target>`, `drag <from> -> <to> [hold]`, `battle hold= speed= open=`, `summary focus=dps:N hold=`. `buy` is the same code as `click`.
 
 Targets: `board:N`, `bench:N`, `stash:N`, `shop:N` (bonus slot is `shop:4`), `recap:N`, `syn:<element|type>` (a synergy tag; hovering it opens the ladder tooltip in the left rail), `loot:N` / `loot:take` (boss loot cards and the Take button), `board:bare|best|any|empty`, `node:%RollButton`, `node:%RerollButton`, `node:%LevelUpButton`, `node:%FreezeButton`, `node:%EndRoundButton`. Region names (`shop`, `board`, `synergies`, `bench`, `stash`, `dice`, `battle`, `roll`, `gold`, `level`, `hp`, `tooltip`) work only in `focus:`, never as click targets.
 
-Markers the edit can land on: `warmup`, `beat:N`, `drag_start:<el>`, `drop:<el>`, `apply:<el>`, `impact:<el>`, `star_up` (one per promotion), `cascade_end`, `battle_start`, `battle_end`, `summary`, `summary:focus`, `summary:dps:N`, `summary:kills:N`, `summary:unit:N`, `summary:damage`, `summary:synergies`. No marker fires for a click, a buy, a refused drop or a stash merge; use the default `beat:N` for those.
+Markers the edit can land on: `warmup`, `beat:N`, `drag_start:<el>`, `drop:<el>`, `apply:<el>`, `impact:<el>`, `star_up` (one per promotion), `cascade_end`, `battle_start`, `battle_open_end`, `battle_end`, `summary`, `summary:focus`, `summary:dps:N`, `summary:kills:N`, `summary:unit:N`, `summary:damage`, `summary:synergies`. No marker fires for a click, a buy, a refused drop or a stash merge; use the default `beat:N` for those.
 
 ### Hard limits, and the workaround for each
 
@@ -49,4 +49,4 @@ Markers the edit can land on: `warmup`, `beat:N`, `drag_start:<el>`, `drop:<el>`
 - **Beast/fire has static art only.** Avoid it as the hero unit.
 - **Setup units merge like bought ones.** Three identical bare units of one star in `board:`/`bench:` collapse into the next star while the harness places them (the log says "field cap refused board:N, forcing it"), and a 1★ element is then refused on the 2★ body. A row of six "the same unit" needs six types or mixed stars; e_six_reptiles_six_elements lost its first render to this on 2026-10-14.
 - **A boss win shows Boss Loot first**: `battle_end` fires on the loot pick, and the result overlay (and `summary`) only comes after `click loot:N; click loot:take`.
-- A fight is ~39 s at speed 1; `speed=4..6` for battle beats. The harness never waits for speech: the beat's actions must last at least as long as the line.
+- A fight is ~39 s at speed 1; `speed=4..6` for battle beats. `open=N` plays the first N s of the fight at speed 1 and then switches to `speed` (marker `battle_open_end`), for an opening that has to read, like the Ice-4 freeze (3 s). The harness never waits for speech: the beat's actions must last at least as long as the line.

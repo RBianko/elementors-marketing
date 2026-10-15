@@ -63,7 +63,8 @@ def action_seconds(a):
     if do == "drift":
         return DRIFT
     if do == "battle":
-        return BATTLE_SEC / float(a.get("speed", 1)) + float(a.get("hold", 0.5))
+        opening = min(float(a.get("open", 0)), BATTLE_SEC)
+        return opening + (BATTLE_SEC - opening) / float(a.get("speed", 1)) + float(a.get("hold", 0.5))
     if do == "summary":
         return SUMMARY_SETTLE + float(a.get("hold", 0.5))
     return 0.0

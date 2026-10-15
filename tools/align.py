@@ -63,7 +63,7 @@ class Camera:
         self.pos.append([f, round(0.5 - cx / self.W * self.ar * s, 4), round(0.5 - cy / self.H * s, 4), interp])
 
 
-FIGHT_ZOOM = (1.0, 1.6)
+FIGHT_ZOOM = (0.55, 1.6)
 WIDE_ZOOM = 0.5
 WIDE_PUNCH = 0.65
 
@@ -152,6 +152,14 @@ def build_camera(frames, markers, beats, trim, last, cam, fight=()):
         nxt = ordered[i + 1] if i + 1 < len(ordered) else None
         seg_end = nxt["frame"] if nxt else last
         follow_end = seg_end - PUNCH_LEAD if nxt and nxt.get("punch") else seg_end
+        if battle[0] and seg_start <= battle[0]["f"] < seg_end:
+            cam.key(rel(max(seg_start, cursor)), FOLLOW_ZOOM, *at(seg_start), interp="linear")
+            end = battle[1]["f"] if battle[1] else seg_end
+            if not fight_keys(cam, fight, battle[0]["f"], end, rel):
+                cam.key(rel(battle[0]["f"]) + 20, 1.0, cam.W / 2, cam.H / 2)
+                cam.key(rel(end), 1.0, cam.W / 2, cam.H / 2)
+            cursor = end
+            continue
         if b.get("punch"):
             if b.get("focus_rect"):
                 zoom, px, py = fit(b)
@@ -167,14 +175,6 @@ def build_camera(frames, markers, beats, trim, last, cam, fight=()):
             else:
                 cam.key(min(rel(seg_start) + PUNCH_HOLD + 44, rel(follow_end)), FOLLOW_ZOOM, px, py + 30)
             cursor = seg_end
-            continue
-        if battle[0] and seg_start <= battle[0]["f"] < seg_end:
-            cam.key(rel(max(seg_start, cursor)), FOLLOW_ZOOM, *at(seg_start), interp="linear")
-            end = battle[1]["f"] if battle[1] else seg_end
-            if not fight_keys(cam, fight, battle[0]["f"], end, rel):
-                cam.key(rel(battle[0]["f"]) + 20, 1.0, cam.W / 2, cam.H / 2)
-                cam.key(rel(end), 1.0, cam.W / 2, cam.H / 2)
-            cursor = end
             continue
         if cursor_driven(b):
             s = max(seg_start, cursor)
@@ -320,7 +320,7 @@ def main():
         "video": {"path": os.path.join(rdir, f"{base}.mp4"), "source": [round(trim / fps, 4), round((trim + end_clip) / fps, 4)],
                   "startFrame": offset, "trim": trim},
         "hold": hold,
-        "backdrop": wide,
+        "backdrop": wide or min(k[2] for k in cam.scale) < 1,
         "keyframes": {"scale": cam.scale, "position": cam.pos},
         "vo": [{"beat": v["beat"], "path": v["mp3"], "startFrame": offset + v["start_clip"]} for v in vo],
         "captions": captions,
