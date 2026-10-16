@@ -18,7 +18,7 @@ How a 9:16 short is produced from a written scenario. Two halves, two repos.
     /Applications/Godot.app/Contents/MacOS/Godot --headless --path . -s /Users/a1/DEV/elementors-marketing/tools/shop_scan.gd
   ```
 
-  The shop depends only on seed, round, level and the reroll count, not on the board. Check the setup shop (`s0`) too: it is rolled before the level is raised and may carry a bonus card.
+  The shop depends only on seed, round, level and the reroll count, not on the board. Check the setup shop (`s0`) too: it is rolled before the level is raised and may carry a bonus card. Because of that order, a third or fourth regular slot is empty at setup on level 4+; `refill_shop: true` refills the shop once after the level is set (2026-10-16, m_flip_round_fifteen).
 - The merge result lands on the unit the element was applied to, so the apply target decides where a cascade ends (bench or board).
 - After a merge under a parked cursor the tooltip does not open: move the cursor off and back (`drift`, then `hover`).
 - The focus rect of a beat is written into its `beat:N` marker at render time; a `focus:` change needs a rerender, a `zoom:` or `align:` change does not.

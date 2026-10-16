@@ -29,7 +29,7 @@ Screen events worth a punch: element impact (apply + suction, 0.48 s after the d
 
 ## What the harness films (`tests/shot_movie.gd`)
 
-Frontmatter keys passed through: `seed`, `round` (default 3), `level` (default max(3, board size)), `gold` (10), `dice` (fire/ice/wind), `roll` (true), `board`, `bench`, `stash`, `offer`, `opponent`, `unlock_toasts` (false), `cursor_start`, `settle_s`, `save`, and the player-pool keys `pick`, `stage`, `exclude`, `min_units`, `require_bare`.
+Frontmatter keys passed through: `seed`, `round` (default 3), `level` (default max(3, board size)), `gold` (10), `dice` (fire/ice/wind), `roll` (true), `board`, `bench`, `stash`, `offer`, `opponent`, `unlock_toasts` (false), `refill_shop` (false; refills the shop after the level is set, otherwise slots opened by a level above 3 stay empty), `cursor_start`, `settle_s`, `save`, and the player-pool keys `pick`, `stage`, `exclude`, `min_units`, `require_bare`.
 
 Actions: `wait s`, `idle s`, `wander s rN`, `drift dx,dy`, `hover <target> [hold]`, `click <target>`, `drag <from> -> <to> [hold]`, `battle hold= speed= open= roam=`, `summary focus=dps:N hold=`. `buy` is the same code as `click`.
 
