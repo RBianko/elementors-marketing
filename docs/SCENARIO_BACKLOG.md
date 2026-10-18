@@ -86,6 +86,14 @@ Wave 1 is renderable today with the harness and the current skills. Wave 2 needs
 | w | A streamer hits the 3★ | streamer clip | real creator footage | the creator's own reaction | needs creators | 3 |
 | x | When you and your friend both play autobattlers | trend / CapCut | two boards, two moods | trend text | one try at most | 3 |
 
+## First results (2026-10-18)
+
+Wave 1 is posted on YouTube Shorts and TikTok. One cut broke out: `e` silent (six bare creatures, six elements, captions only) at about 7k views, against 100-200 for most cuts and about 1k for two. About 80 wishlists came in over the same period from all the shorts and a few Reddit posts together.
+
+- The winning shape is the mechanic shown on a row of creatures, silent, captions that name what happens. The voiced streamer cuts (h, i, j, c) did not beat it. That moves the weight to silent mechanic cuts in the e mould: n is already one; o, y and the "build showcase" idea (one element build per short) fit it.
+- Repost e first, per the rule below: same cut with one change (130% speed, or a new 0:00 caption), and a second take of the same idea on 2★ units from the n render.
+- One breakout is one data point. Keep the two-to-three tries per style before calling the streamer cuts dead.
+
 ## Where to put the weight
 
 - Pure gameplay from frame 0, every cut. The event the camera punches on is the product: impact, cascade, reveal, freeze, melt. The strategy never gets explained.
