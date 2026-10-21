@@ -18,6 +18,7 @@ Every rendered moment ships as two cuts: the streamer-voice cut and a silent tex
 | 6 | k | Fifteen seconds of Elementors | edit from l, e, c, b; silent | posted | `scenarios/k_fifteen_seconds.md`, 2026-10-17; silent cut only (user call); timeline `k_fifteen_seconds 9x16`, 14.6 s, music laid, exported `exports/k_fifteen_seconds.mp4`; six shots: throw, three impacts, 3★ cascade, freeze; captions explain the mechanics: 15 SECONDS. · MY AUTOBATTLER. · WATER. ICE. VENOM. · MATCH THREE, · STAR UP. · ICE BUILD: · FREEZES EVERYONE. · WHICH BUILD NEXT? |
 | 7 | a/h/j | Silent re-cuts | edit only, existing renders | dropped | user call 2026-10-17: a carries only the voiced reaction, h repeats the 3★ cascade of c and k, j was not wanted either |
 | 8 | n | Loop: apply and suction | one render, 2★ applies | posted | `scenarios/n_apply_loop.md`, 2026-10-17; new render on the current build: six bare 2★ creatures take six 2★ elements (fire reptile, ice slime, wind insect, water dragon, light ghost, venom plant), opens on one die throw from l landing water, then the six applies starting with water, each shown to the end of its animation; timeline `n_apply_loop 9x16`, 18.6 s, music laid, ends on a fade with the logo and WISHLIST ON STEAM as in m, exported `exports/n_apply_loop.mp4`; captions ROLL AN ELEMENT, · DROP IT ON ANY CREATURE., each element named in its colour over its shot |
+| 9 | e2 | Repost of e, new hook | edit only, silent A timeline copied | cut | 2026-10-18, per the first results: the captions change, after silent cut B of the e brief; 0:00 SIX GUYS · SIX ELEMENTS, then each impact as TYPE × ELEMENT with the element in its colour from n (REPTILE × FIRE · SLIME × ICE · INSECT × WIND · PLANT × WATER · GHOST × LIGHT · DRAGON × VENOM; Poppins-Bold 56, outline 10, popIn, y 0.72, two clips per pair centred by hand; user call 2026-10-18), then ANY CREATURE · ANY ELEMENT · PICK ONE as the verdict, no trailing periods (user call 2026-10-19); timeline `e_six_reptiles_six_elements silent B 9x16`, 29.2 s, no music (as A), exported `exports/e_six_reptiles_six_elements_silent_b.mp4` |
 
 Order: 1, 2, 3 first (cheapest, and k is built from them), then 4, 5, then the edits 6, 7, 8.
 
@@ -27,10 +28,10 @@ Needs a posting account with comments, a milestone, or a thing from the game sid
 
 | ID | Cut | Gate | Status |
 |---|---|---|---|
-| o | This is TFT with dice | none; one render | todo |
-| p | Find the three-star line | none; one render with a hold still | todo |
-| z | One whole round, no cuts | none; one 60-90 s render, captions only | todo |
-| y | Pokémon types, but it's an autobattler | none; one render | todo |
+| o | This is TFT with dice | none; one render | cut |
+| p | Find the three-star line | none; one render with a hold still | cut |
+| z | One whole round, no cuts | none; one 60-90 s render, captions only | cut |
+| y | Pokémon types, but it's an autobattler | none; one render | cut |
 | u | How it started, how it's going | an old pwn-zz build that runs; account decision | todo |
 | q | Which element on the dragon? | comments on the account; then one render per winning answer | todo |
 | r | Real player's board, can it win? | `board: supabase`; a series, one per week | todo |

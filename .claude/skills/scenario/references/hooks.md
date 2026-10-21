@@ -52,7 +52,7 @@ ElevenLabs shaping: ellipses and periods for stops, exclamation marks for a shou
 
 ## Captions
 
-Max 3 words per caption (project rule), bold uppercase, highlight one word, band at y 0.72, never in the upper third. Caption the self-talk, not what the UI already shows (gold, round label). The 0:00 caption is the stake, not a transcript. Platform CTA buttons cover the bottom, so nothing important lives there.
+Max 3 words per caption (project rule), bold uppercase, highlight one word, band at y 0.72, never in the upper third. Caption the self-talk, not what the UI already shows (gold, round label). The 0:00 caption is the stake, not a transcript. Platform CTA buttons cover the bottom, so nothing important lives there. No trailing period on a caption: SIX ELEMENTS, not SIX ELEMENTS. (user call 2026-10-19); "?" stays where it is a question.
 
 ## Paid-cut constraints
 
