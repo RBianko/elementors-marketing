@@ -34,7 +34,7 @@ Needs a posting account with comments, a milestone, or a thing from the game sid
 | y | Pokémon types, but it's an autobattler | none; one render | cut |
 | u | How it started, how it's going | an old pwn-zz build that runs; account decision | todo |
 | q | Which element on the dragon? | comments on the account; then one render per winning answer | todo |
-| r | Real player's board, can it win? | `board: supabase`; a series, one per week | todo |
+| r | Real players' builds carousel | none; one render per board, `board: supabase` | cut |
 | s | Demo day trailer / milestone | the milestone | todo |
 | t | Nobody cares about your autobattler | a real negative comment | todo |
 | cr | Discovery creators outreach | cuts k, c, h posted; demo link | todo |
